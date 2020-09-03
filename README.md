@@ -1,24 +1,75 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## words テーブル
+## ゲームに表示させる単語。登録で増やせる
 
-Things you may want to cover:
+| Column     | Type       | Options                      |
+| --------   | ------     | -----------                  |
+| text       | string     | null: false, uniqueness: true|
 
-* Ruby version
+### Association
 
-* System dependencies
+## users テーブル
 
-* Configuration
+| Column     | Type       | Options                        |
+| ------     | ------     | -----------                    |
+| name       | string     | null: false  uniqueness: true  |
+| email      | string     | null: false  uniqueness: true  |
+| (password) | string     | null: false                    |
 
-* Database creation
+### Association
 
-* Database initialization
+- has_many :user_items
+- has_many :results
 
-* How to run the test suite
+## results テーブル
+## ゲーム一回ごとの結果を記録
 
-* Services (job queues, cache servers, search engines, etc.)
+| Column     | Type       | Options                        |
+| -------    | ---------- | ------------------------------ |
+| user_id    | references | null:false,foreign_key: true   |
+| total_type | integer    | null:false                     |
+| good_type  | integer    | null:false                     |
+| score      | integer    | null:false                     |
 
-* Deployment instructions
+### Association
 
-* ...
+- belongs_to :user
+- has_many :miss_types
+
+## miss_types テーブル
+## タイプミスしたキーと回数を記録
+
+| Column     | Type       | Options                         |
+| -------    | ---------- | ------------------------------  |
+| result_id  | references | null: false,foreign_key: true   |
+| key        | string     | null: false  uniqueness: true   |
+| times      | integer    | null: false                     |
+
+### Association
+
+- belongs_to :result
+
+## user_items テーブル
+
+| Column     | Type       | Options                         |
+| -------    | ---------- | ------------------------------  |
+| user_id    | references | null:false,foreign_key: true    |
+| item_id    | references | null:false,foreign_key: true    |
+
+### Association
+
+- belongs_to :user
+- belongs_to :item
+
+## items テーブル
+## ストアページでアイコンなどを販売
+
+| Column     | Type       | Options                         |
+| -------    | ---------- | ------------------------------  |
+| name       | references | null:false,foreign_key: true    |
+| price      | references | null:false,foreign_key: true    |
+
+### Association
+
+- has_many :user_items
