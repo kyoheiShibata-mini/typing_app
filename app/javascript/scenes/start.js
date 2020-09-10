@@ -22,11 +22,13 @@ export function start(){
       this.counter = 3;
       // レベル
       var label = Label({
+        fontFamily: 'YuMincho',
         text:'難易度 ' + level,
         fill: fontColor,
         fontSize: SCREEN_HEIGHT / 12,
       }).addChildTo(this).setPosition(this.gridX.center(), this.gridY.center(-4));
       var label2 = Label({
+        fontFamily: 'YuMincho',
         text:'クリックで開始',
         fill: fontColor,
         fontSize: SCREEN_HEIGHT / 8,
@@ -34,7 +36,7 @@ export function start(){
     },
     onpointend: function() {
       //BGM再生
-      SoundManager.setVolumeMusic(0.02);
+      SoundManager.setVolumeMusic(0.05);
       SoundManager.playMusic("bgm");
       // 次のシーンへ
       this.exit();

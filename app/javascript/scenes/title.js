@@ -1,3 +1,4 @@
+import * as setting from "scenes/setting";
 /*
  * タイトルシーン
  */
@@ -6,18 +7,11 @@ export function title(){
   phina.globalize();
 
 
-    // 定数
-    var SCREEN_WIDTH = 32 * 40; 
-    var SCREEN_HEIGHT = 18 * 40; 
-    var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-    var KEYWORD_SPEED_X = 6;
-    var KEYWORD_SPEED_Y = -10;
-    var GRAVITY = 0.2;
-    var COLORS = ['rgb(249,38,114)', 'rgb(166,226,46)', 'rgb(253,151,31)', 'rgb(102,217,239)'];
-    var BG_COLOR = 'rgb(39,40,34)';
-    var KEYWORDS = null;
-    var INTERVAL = 1000;
-    var CONTINUE = 3;
+    // 定数var 
+    var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
+    var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
+    var BG_COLOR = setting.BG_COLOR;
+
 
   phina.define('Title', {
     // 継承
@@ -28,12 +22,13 @@ export function title(){
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
-      var tomapiko = Sprite('tomapiko').addChildTo(this);
-    
-      tomapiko.x = this.gridX.center();
-      tomapiko.y = this.gridY.center();
-      tomapiko.width = 128;
-      tomapiko.height = 128;
+
+    //背景画像
+    var bg = Sprite('title_bg').addChildTo(this);
+    bg.x = this.gridX.center();
+    bg.y = this.gridY.center();
+    bg.width = SCREEN_WIDTH;
+    bg.height = SCREEN_HEIGHT;
 
       this.backgroundColor = BG_COLOR;
       var fontColor = 'rgb(255,255,255)';
@@ -44,55 +39,54 @@ export function title(){
           titleText: {
             className: 'Label',
             arguments: {
+              fontFamily: 'YuMincho',
               text: '大江戸タイピング',
-              fill: 'rgb(166,226,46)',
-              stroke: null,
-              fontSize: SCREEN_HEIGHT / 6,
+              fill: 'red',
+              stroke: 'yellow',
+              strokeWidth: 10,
+              fontSize: SCREEN_HEIGHT / 5,
             },
             x: this.gridX.center(),
-            y: this.gridY.span(5),
+            y: this.gridY.center(-2),
           },
 
           subtitleText: {
             className: 'Label',
             arguments: {
-              text: '~ 一揆でござる ~',
-              fill: 'rgb(253,151,31)',
-              stroke: null,
+              fontFamily: 'YuMincho',
+              text: '~ 家事と喧嘩は江戸の花 ~',
+              fill: 'red',
+              stroke: 'yellow',
+              strokeWidth: 5,
               fontSize: SCREEN_HEIGHT / 12,
             },
             x: this.gridX.center(),
-            y: this.gridY.center(),
-          },
-
-          explainText: {
-            className: 'Label',
-            arguments: {
-              text: 'case-insensitive',
-              fill: 'rgb(253,151,31)',
-              stroke: null,
-              fontSize: SCREEN_HEIGHT / 12,
-            },
-            x: this.gridX.center(),
-            y: this.gridY.center(2),
+            y: this.gridY.center(1),
           },
 
           startText: {
             className: 'Label',
             arguments: {
+              fontFamily: 'YuMincho',
               text: '開始',
-              fill: 'rgb(102,217,239)',
+              fill: 'white',
               stroke: null,
               fontSize: SCREEN_HEIGHT / 10,
             },
             x: this.gridX.center(),
-            y: this.gridY.center(5),
+            y: this.gridY.center(6.5),
           },
         }
       });
       // 文字点滅
       this.startText.tweener.fadeOut(1000).fadeIn(1000).setLoop(true).play();
     },
+    
+    // タッチ時
+    onenter: function() {
+      SoundManager.stop();
+    },
+
     // タッチ時
     onpointend: function() {
       // 次のシーンへ
