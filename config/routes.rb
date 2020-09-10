@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root to: "typing#index"
+  devise_for :users
+  root to: "typings#index"
   resources :typings, only:[:index]
+  resources :users, only:[:new,:create]
 
 end
