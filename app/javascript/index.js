@@ -1,45 +1,66 @@
-
 import * as title from "scenes/title";
-import * as count_down from "scenes/count_down";
 import * as main_game from "scenes/main_game";
 import * as result from "scenes/result";
-
+import * as setting from "scenes/setting";
 
 // グローバルに展開
 phina.globalize();
 // 定数
-var SCREEN_WIDTH = 32 * 40; 
-var SCREEN_HEIGHT = 18 * 40; 
-
-var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-var KEYWORD_SPEED_X = 6;
-var KEYWORD_SPEED_Y = -10;
-var GRAVITY = 0.2;
-var COLORS = ['rgb(249,38,114)', 'rgb(166,226,46)', 'rgb(253,151,31)', 'rgb(102,217,239)'];
-var BG_COLOR = 'rgb(39,40,34)';
-var KEYWORDS = null;
-var INTERVAL = 1000;
-var CONTINUE = 3;
+var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
+var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
 
 // アセット
 var ASSETS = {
   //サウンド
   sound: {
-    'se1': "/Users/shibata.kyohei/projects/typing_app/app/assets/sounds/type.mp3",
+    'type1': '../../assets/katana-clash1.mp3',
+    'type2': '../../assets/katana-clash2.mp3',
+    'type3': '../../assets/katana-clash3.mp3',
+
+    'miss1': '../../assets/miss1.mp3',
+    'miss2': '../../assets/miss2.mp3',
+
+    'todome': '../../assets/todome.mp3',
+
+    'bgm': '../../assets/maturi.mp3',
   },
   // キーワード一覧
   text: {
-    'keywords': 'https://cdn.jsdelivr.net/gh/alkn203/phina-games@master/keyword-shot/assets/keywords',
+    'keywords': '../../assets/keywords.text',
+    //'keywords': 'https://cdn.jsdelivr.net/gh/alkn203/phina-games@master/keyword-shot/assets/keywords',
   },
   image: {
-    'tomapiko': 'https://cdn.jsdelivr.net/gh/phi-jp/phina.js@0.1.1/assets/images/tomapiko.png',
+    'main_bg': '../../assets/bg.jpeg',
+    'asigaru': '../../assets/chara/asigaru.png',
+    'tujigiri': '../../assets/chara/tujigiri.png',
+    'asigaru': '../../assets/chara/asigaru.png',
+    'hit': '../../assets/effect/hit.png',
   },
+  spritesheet: {
+    "hit_ss":
+    {
+      // フレーム情報
+      "frame": {
+        "width": 192, // 1フレームの画像サイズ（横）
+        "height": 192, // 1フレームの画像サイズ（縦）
+        "cols": 5, // フレーム数（横）
+        "rows": 2, // フレーム数（縦）
+      },
+      // アニメーション情報
+      "animations" : {
+        "hit": { // アニメーション名
+          "frames": [1,2,3,4,5,6], // フレーム番号範囲
+          "frequency": 1, // アニメーション間隔
+        },
+      }
+    },
+   },
 };
 
 title.title();
-count_down.count_down();
 main_game.main_game();
 result.result();
+//start.start();
 
 /*
  * メイン処理
@@ -47,6 +68,11 @@ result.result();
 phina.main(function() {
   // アプリケーションを生成
   var app = GameApp({
+    // 表示先のcanvasを指定
+    query: '#mycanvas',
+    // 画面にフィットさせない
+    fit: false,
+
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
     assets: ASSETS,
@@ -59,11 +85,6 @@ phina.main(function() {
         nextLabel: 'Main',
       },
       {
-        className: 'Count',
-        label: 'Count',
-        nextLabel: "Result",
-      },
-      {
         className: 'Main',
         label: 'Main',
         nextLabel: 'Result',
@@ -73,8 +94,13 @@ phina.main(function() {
         label: 'Result',
         nextLabel: 'Title',
       },
+      // {
+      //   className: 'Start',
+      //   label: 'Start',
+      //   nextLabel: 'Main',
+      // },
     ],
-    startLabel: 'Title',
+    startLabel: 'Main',
   });
   // 実行
   app.run();

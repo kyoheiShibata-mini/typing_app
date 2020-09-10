@@ -18,7 +18,7 @@ export function title(){
     var KEYWORDS = null;
     var INTERVAL = 1000;
     var CONTINUE = 3;
-    
+
   phina.define('Title', {
     // 継承
     superClass: 'DisplayScene',
@@ -28,7 +28,13 @@ export function title(){
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
-      
+      var tomapiko = Sprite('tomapiko').addChildTo(this);
+    
+      tomapiko.x = this.gridX.center();
+      tomapiko.y = this.gridY.center();
+      tomapiko.width = 128;
+      tomapiko.height = 128;
+
       this.backgroundColor = BG_COLOR;
       var fontColor = 'rgb(255,255,255)';
       var buttonSize = 168;

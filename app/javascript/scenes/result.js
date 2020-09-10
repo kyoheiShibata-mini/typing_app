@@ -1,28 +1,17 @@
+import * as setting from "scenes/setting";
   /*
   * リザルトシーン上書き
   */
 export function result(){
   phina.globalize();
   // 定数
-  var SCREEN_WIDTH = 16 * 40; 
-  var SCREEN_HEIGHT = 9 * 40; 
+  var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
+  var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-  var KEYWORD_SPEED_X = 6;
-  var KEYWORD_SPEED_Y = -10;
-  var GRAVITY = 0.2;
-  var COLORS = ['rgb(249,38,114)', 'rgb(166,226,46)', 'rgb(253,151,31)', 'rgb(102,217,239)'];
-  var BG_COLOR = 'rgb(39,40,34)';
-  var KEYWORDS = null;
-  var INTERVAL = 1000;
-  var CONTINUE = 3;
-  // アセット
-  var ASSETS = {
-    // キーワード一覧
-    text: {
-      'keywords': 'https://cdn.jsdelivr.net/gh/alkn203/phina-games@master/keyword-shot/assets/keywords',
-    },
-  };
-  phina.define('ResultScene', {
+  var COLORS = setting.COLORS;
+  var BG_COLOR = setting.BG_COLOR;
+  
+  phina.define('Result', {
     // 継承
     superClass: 'DisplayScene',
     // 継承

@@ -1,22 +1,21 @@
-import * as count_down from "scenes/count_down";
+import * as start from "scenes/start";
+import * as setting from "scenes/setting";
 /*
   * メインシーン
   */
 export function main_game(){
-    phina.globalize();
-    // 定数
-    var SCREEN_WIDTH = 16 * 40; 
-    var SCREEN_HEIGHT = 9 * 40; 
-    var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-    var KEYWORD_SPEED_X = 6;
-    var KEYWORD_SPEED_Y = -10;
-    var GRAVITY = 0.2;
-    var COLORS = ['rgb(249,38,114)', 'rgb(166,226,46)', 'rgb(253,151,31)', 'rgb(102,217,239)'];
-    var BG_COLOR = 'rgb(39,40,34)';
-    var KEYWORDS = null;
-    var INTERVAL = 1000;
-    var CONTINUE = 3;
+  phina.globalize();
 
+  //定数
+  var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
+  var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
+  var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
+  var BG_COLOR = setting.BG_COLOR;
+  var KEYWORDS = null;
+  var INTERVAL = setting.INTERVAL;
+
+  var time_over = false;
+  var type_success = false;
   phina.define('Main', {
     // 継承
     superClass: 'DisplayScene',
@@ -27,6 +26,19 @@ export function main_game(){
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
+
+      //描画順グループ
+      this.group_bg = DisplayElement().addChildTo(this);
+      this.group_chara = DisplayElement().addChildTo(this);
+      this.group_ef = DisplayElement().addChildTo(this);
+
+      //背景画像
+      var bg = Sprite('main_bg').addChildTo(this.group_bg);
+      bg.x = this.gridX.center();
+      bg.y = this.gridY.center();
+      bg.width = SCREEN_WIDTH;
+      bg.height = SCREEN_HEIGHT;
+      
       // 背景色
       this.backgroundColor = BG_COLOR;
       // グループ
@@ -34,10 +46,11 @@ export function main_game(){
       this.disableGroup = DisplayElement().addChildTo(this);
       // 入力文字バッファ
       this.buffer = '';
+      this.checkBuffer = '';
       // キーワードのインデックス
       this.keyIndex = 0;
       // レベル（文字数）
-      this.level = 1;
+      this.level = 2;
       // スコア 
       this.score = 0;
       // ライフ
@@ -50,105 +63,146 @@ export function main_game(){
       }).addChildTo(this).setPosition(this.gridX.span(14), this.gridY.span(1));
       // ライフ非表示
       this.lifeLabel.hide();
+      //タイプ制限時間
+      var timeLimit = 5;
 
-      var tomapiko = Sprite('tomapiko').addChildTo(this);
+      //エフェクト
+      var sprite = Sprite('hit', 64, 64).addChildTo(this.group_ef);
+      this.hitEffect = FrameAnimation('hit_ss').attachTo(sprite);          
+      sprite.x = this.gridX.center();
+      sprite.y = this.gridY.center();
+
+      //タイマーゲージ
+      var timerGauge = Gauge({
+        x: 320, y: 150,        // x,y座標
+        width: 400,            // 横サイズ
+        height: 30,            // 縦サイズ
+        cornerRadius: 10,      // 角丸み
+        maxValue: 100,         // ゲージ最大値
+        value: 100,         // ゲージ初期値
+        fill: 'white',         // 後ろの色
+        timerGaugeColor: 'skyblue', // ゲージ色
+        stroke: 'silver',      // 枠色
+        strokeWidth: 5,        // 枠太さ
+      }).addChildTo(this);
+
+      timerGauge.animation =false;
+      timerGauge.setPosition(this.gridX.center(), this.gridY.center(-5));;
+
+      timerGauge.onempty = function() {
+        time_over = true;
+      };  
       
-      tomapiko.x = this.gridX.center();
-      tomapiko.y = this.gridY.center();
-      tomapiko.width = 128;
-      tomapiko.height = 128;
+      timerGauge.update= function(){
+        if(type_success){
+          timerGauge.value = 100;
+        }
+        else{
+          timerGauge.value -= timerGauge.maxValue/(timeLimit * 60);
+        }
+      };
+      timerGauge.onresume = function(){
+        timerGauge.value = 100;
+      };
     },
-    
+
     // シーンに入ったら
     onenter: function() {
-      
       // キーワードをロード
       this.loadKeywords();
       //カウントシーンを挿入
-      this.app.pushScene(Count(this.level));
+      start.start();
+      this.app.pushScene(Start(this.level));
     },
 
     // シーンに復帰した時
     onresume:function() {
-      // ライフ表示
-      this.lifeLabel.show();
       // キーワード作成
       this.createKeyword();
     },
+    
     // 毎フレーム更新処理
     update: function() {
       // 画面下到達チェック
-      this.checkKeywordToBottom();
+      this.checkTimeUp();
     },
   
     // キーワード作成
     createKeyword: function() {
+      var self = this;
       // キーワード作成
       var keyword = Keyword(KEYWORDS[this.keyIndex]).addChildTo(this.keywordGroup);
       // 位置
       keyword.x = this.gridX.center();
-      keyword.y = this.gridY.center();
+      keyword.y = this.gridY.center(-3);
+      //モンスターイラスト表示
+      var enemy = this.createCharacter("tujigiri").addChildTo(this.group_chara);
+
+      //ゲージ制御用
+      type_success = false;
     },
-    // 画面下到達判定
-    checkKeywordToBottom: function() {
+
+    // 入力時間終了
+    checkTimeUp: function() {
       var self = this;
-      
       this.keywordGroup.children.each(function(keyword) {
-        // 画面下に着いたら
-        if (keyword.bottom > self.gridY.width) {
+        if(time_over){
           keyword.remove();
+          time_over = false;
           // ミス処理
           self.loseLife();
         }
       });
     },
-    // ミス処理
-    loseLife: function() {
-      this.life--;
-      this.lifeLabel.text = 'LIFE: {0}'.format(this.life);
-      // ライフ0
-      if (this.life === 0) {
-        this.showResult();  
-      }
-      else {
-        this.lifeLabel.hide();
-        this.app.pushScene(Count(this.level));
-      }
-    },
     // キー入力時処理
     onkeydown: function(e) {
-      SoundManager.play('se1');
       // 入力文字をバッファに追加
-      this.buffer += String.fromCharCode(e.keyCode);
+      //this.buffer += String.fromCharCode(e.keyCode);
+      this.checkBuffer = this.buffer + String.fromCharCode(e.keyCode);
       // 比較 
       this.compare();
     },
     // 入力文字バッファと単語の比較
     compare: function() {
-      var buffer = this.buffer.toLowerCase();
+      var checkBuffer = this.checkBuffer.toLowerCase();
       var count = 0;
       var self = this;
 
       this.keywordGroup.children.each(function(keyword) {
         var str = keyword.text.toLowerCase();
         // 指定した文字で始まるか
-        if (str.startsWith(buffer)) {
+        if (str.startsWith(checkBuffer)) {
+
+          self.hitEffect.gotoAndPlay('hit');
+
+          self.buffer = checkBuffer;
+          //効果音
+          let random = Math.random();
+          if(random >= 0.6){
+            SoundManager.play('type1');
+          }else if(random <= 0.3){
+            SoundManager.play('type2');
+          }else{
+            SoundManager.play('type3');
+          };
           // 一致部分をマスク
-          keyword.setMask(buffer.length);
+          keyword.setMask(self.buffer.length);
           // 完全一致
-          if (buffer.length === str.length) {
+          if (self.buffer.length === str.length) {
+            SoundManager.play('todome');
             // キーワード削除処理
             self.disable(keyword);
           }
           count++;
         }
         else {
+          SoundManager.play('miss1');
           // スペルミスの場合はマスク解除
-          keyword.removeMask();
+          //keyword.removeMask();
         }
       });
       // 一部一致文字がなければバッファクリア
-      if (count === 0) this.buffer = '';
+      //if (count === 0) this.buffer = '';
     },
     // キーワード削除処理
     disable: function(keyword) {
@@ -161,9 +215,13 @@ export function main_game(){
       this.score++;
       // インデックス更新
       this.keyIndex++;
+      //ゲージ制御用
+      type_success = true;
+      //モンスター画像削除
+      
       // 削除アニメーション
       keyword.tweener.set({stroke: 'lime', cornerRadius: KEYWORD_SIZE / 8,})
-                    .fadeOut(500)
+                    .fadeOut(200)
                     .wait(INTERVAL)
                     .call(function() {
                         keyword.remove();
@@ -173,10 +231,10 @@ export function main_game(){
                           return;
                         }
                         // 文字数が変わったらレベルアップ
-                        if (self.level < KEYWORDS[self.keyIndex].length) {
-                          self.levelup();
-                          return;
-                        }
+                        // if (self.level < KEYWORDS[self.keyIndex].length) {
+                        //   self.levelup();
+                        //   return;
+                        // }
                         // 次のキーワード作成
                         self.createKeyword();
                       }).play();
@@ -186,22 +244,6 @@ export function main_game(){
       this.level++;
       //
       this.setLife(this.level);
-      // ライフ非表示
-      this.lifeLabel.hide();
-
-      this.app.pushScene(Count(this.level));
-    },
-    // ライフ値セット
-    setLife: function(level) {
-      var count = 0;
-
-      KEYWORDS.each(function(keyword) {
-        // levelと同じ長さのキーワードをカウント
-        if (keyword.length === level) count++;
-      });
-      // ライフ値セット
-      this.life = (count / 2) | 0;
-      this.lifeLabel.text = '体力: {0}'.format(this.life);
     },
     // 結果表示
     showResult: function() {
@@ -219,6 +261,18 @@ export function main_game(){
       KEYWORDS = keywords.data.split(/\r\n|\n/);
       // 文字数の小さい順に並べる
       KEYWORDS.sort(function(a, b) { return a.length - b.length; });
+    },
+
+    //キャライラスト表示
+    createCharacter: function(name){
+      const character = Sprite(name);
+    
+      character.x = this.gridX.center();
+      character.y = this.gridY.center(2);
+      character.scaleX = 0.5;
+      character.scaleY = 0.5;
+
+      return character;
     },
   });
 }
