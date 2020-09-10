@@ -150,7 +150,7 @@ export function main_game(){
           keyword.remove();
           time_over = false;
           // ミス処理
-          self.loseLife();
+          self.showResult();
         }
       });
     },
@@ -225,30 +225,19 @@ export function main_game(){
                     .wait(INTERVAL)
                     .call(function() {
                         keyword.remove();
-                        // コンプリート
-                        if (self.keyIndex === KEYWORDS.lengh - 1) {
+                        //全単語終わったらゲーム終了
+                        if (self.keyIndex > KEYWORDS.length -1) {
                           self.showResult();
                           return;
                         }
-                        // 文字数が変わったらレベルアップ
-                        // if (self.level < KEYWORDS[self.keyIndex].length) {
-                        //   self.levelup();
-                        //   return;
-                        // }
-                        // 次のキーワード作成
+                        //次のキーワード作成
                         self.createKeyword();
                       }).play();
-    },
-    // レベルアップ処理
-    levelup: function() {
-      this.level++;
-      //
-      this.setLife(this.level);
     },
     // 結果表示
     showResult: function() {
       // リザルトシーンへ
-      this.app.replaceScene(ResultScene({
+      this.app.replaceScene(Result({
         level: this.level,
         score: this.score,
         total: KEYWORDS.length,

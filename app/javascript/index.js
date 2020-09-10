@@ -2,6 +2,7 @@ import * as title from "scenes/title";
 import * as main_game from "scenes/main_game";
 import * as result from "scenes/result";
 import * as setting from "scenes/setting";
+import * as keywords from "scenes/keywords";
 
 // グローバルに展開
 phina.globalize();
@@ -23,6 +24,8 @@ var ASSETS = {
     'todome': '../../assets/todome.mp3',
 
     'bgm': '../../assets/maturi.mp3',
+    'result_bgm': '../../assets/result_bgm.mp3',
+
   },
   // キーワード一覧
   text: {
@@ -30,7 +33,10 @@ var ASSETS = {
     //'keywords': 'https://cdn.jsdelivr.net/gh/alkn203/phina-games@master/keyword-shot/assets/keywords',
   },
   image: {
-    'main_bg': '../../assets/bg.jpeg',
+    'main_bg': '../../assets/main_bg.jpeg',
+    'title_bg': '../../assets/title_bg.jpg',
+    'result_bg': '../../assets/result_bg.jpg',
+
     'asigaru': '../../assets/chara/asigaru.png',
     'tujigiri': '../../assets/chara/tujigiri.png',
     'asigaru': '../../assets/chara/asigaru.png',
@@ -60,7 +66,7 @@ var ASSETS = {
 title.title();
 main_game.main_game();
 result.result();
-//start.start();
+keywords.keywords();
 
 /*
  * メイン処理
@@ -94,13 +100,8 @@ phina.main(function() {
         label: 'Result',
         nextLabel: 'Title',
       },
-      // {
-      //   className: 'Start',
-      //   label: 'Start',
-      //   nextLabel: 'Main',
-      // },
     ],
-    startLabel: 'Main',
+    startLabel: 'Title',
   });
   // 実行
   app.run();
