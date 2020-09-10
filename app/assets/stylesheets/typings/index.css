@@ -1,0 +1,31 @@
+ .game-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-frame{
+  border: solid 3px black;
+}
+
+.links-wrapper{
+  width: 900px;
+  height: 100px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.links{
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
+  line-height: 50px;
+  text-align: center;
+  color: white;
+  background-color: #513743;
+  border: solid 1px white;
+  text-decoration: none;
+  font-weight: bolder;
+}
