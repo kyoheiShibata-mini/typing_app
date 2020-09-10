@@ -89,6 +89,7 @@ export function title(){
 
     // タッチ時
     onpointend: function() {
+      SoundManager.play("start");
       // 次のシーンへ
       this.exit();
     },

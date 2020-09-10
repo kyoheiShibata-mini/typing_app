@@ -14,6 +14,8 @@ var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
 var ASSETS = {
   //サウンド
   sound: {
+    'start': '../../assets/start_se.mp3',
+
     'type1': '../../assets/katana-clash1.mp3',
     'type2': '../../assets/katana-clash2.mp3',
     'type3': '../../assets/katana-clash3.mp3',
