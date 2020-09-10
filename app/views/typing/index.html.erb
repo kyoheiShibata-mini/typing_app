@@ -1,35 +1,19 @@
 <!doctype html>
-
-<html>
+<html lang="ja">
   <head>
-    <title><%="大江戸タイピング"%></title>
-    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">　
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="og:title" content="keyword shot" />
-    <meta name="og:description" content="A typing game made with phina.js" />
-    <meta name="og:image" content="https://alkn203.github.io/phina-games/keyword-shot/screenshot.gif" />
-    <meta name="twitter:url" content="https://alkn203.github.io/phina-games/keyword-shot/" />
-    <meta name="twitter:site" content="@alkn203" />
-    <meta name="twitter:creator" content="@alkn203" />   
-
-    <style>*, *:before, *:after {
-      box-sizing: border-box; 
-      }
-      html {
-        font-size: 62.5%;
-      }
-      h1 {
-        font-size: 1.8rem;
-      }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Sawarabi+Mincho" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>大江戸タイピング</title>
   </head>
   <body>
     <div class="game-wrapper">
       <canvas id = "mycanvas" class="game-frame"></canvas>
     <div>
+    <div class="links-wrapper">
+      <%= link_to "ユーザー登録", "#", class: "links"%>
+      <%= link_to "ランキング", "#", class: "links"%>
+      <%= link_to "ストア", "#", class: "links"%>
+      <%= link_to "掲示板", "#", class: "links"%>
+    </div>
   </body>
 </html>

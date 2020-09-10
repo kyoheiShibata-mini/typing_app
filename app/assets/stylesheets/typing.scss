@@ -1,3 +1,25 @@
-// Place all the styles related to the typing controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+ .game-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-frame{
+  border: solid 3px black;
+}
+
+.wrapper{
+  width: 80vw;
+  height: 100px;
+  background-color: brown;
+}
+
+.link{
+  width: 300px;
+  height: 100px;
+  font-size: 200px;
+  color: white;
+  background-color: brown;
+  border: solid 1px white;
+}

@@ -1,17 +1,40 @@
 
 body {
   background: 
-    linear-gradient(45deg, #006e54 25%, transparent 25%, transparent 75%, #006e54 75%) 0 0 / 240px 240px,
-    linear-gradient(45deg, #006e54 25%, transparent 25%, transparent 75%, #006e54 75%) 120px 120px / 240px 240px,
-    #17184b;
- }
+    linear-gradient(45deg, #84a2d4 25%, transparent 25%, transparent 75%, #84a2d4 75%) 0 0 / 240px 240px,
+    linear-gradient(45deg, #84a2d4 25%, transparent 25%, transparent 75%, #84a2d4 75%) 120px 120px / 240px 240px,
+    #a2d7dd;
+    font-family: "Sawarabi Mincho";
+}
 
  .game-wrapper{
-   display: flex;
-   flex-direction: column;
-   align-items: center;
- }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
- .game-frame{
-   border: solid 3px black;
- }
+.game-frame{
+  border: solid 3px black;
+}
+
+.links-wrapper{
+  width: 900px;
+  height: 100px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.links{
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
+  line-height: 50px;
+  text-align: center;
+  color: white;
+  background-color: #513743;
+  border: solid 1px white;
+  text-decoration: none;
+  font-weight: bolder;
+}
