@@ -1,41 +1,21 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
 
-body {
-  background: 
-    linear-gradient(45deg, #84a2d4 25%, transparent 25%, transparent 75%, #84a2d4 75%) 0 0 / 240px 240px,
-    linear-gradient(45deg, #84a2d4 25%, transparent 25%, transparent 75%, #84a2d4 75%) 120px 120px / 240px 240px,
-    #a2d7dd;
-    font-family: "Sawarabi Mincho";
-}
 
- .game-wrapper{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px;
-}
 
-.game-frame{
-  border: solid 3px black;
-}
-
-.links-wrapper{
-  width: 900px;
-  height: 100px;
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.links{
-  width: 210px;
-  height: 80px;
-  font-size: 25px;
-  line-height: 80px;
-  text-align: center;
-  color: white;
-  background-color: #513743;
-  border: solid 1px white;
-  text-decoration: none;
-  font-weight: bolder;
+body{
+  font-family: "Sawarabi Mincho";
 }
