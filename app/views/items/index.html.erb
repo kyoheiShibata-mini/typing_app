@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <%= render partial: "shared/header"%>
+  <body>
+    <div class="item-page">
+      <div class="heading">
+        <h1 class="title">御品書</h1>
+      </div>
+      <ul class="item-lineup">
+        <%= render partial: "item", collection: @items %>
+      </ul>
+      <%=link_to "戻る",root_path,class: "links"%>
+    </div>
+  </body>
+</html>

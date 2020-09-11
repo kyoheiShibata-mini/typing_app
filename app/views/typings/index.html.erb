@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="ja">
-  <head>
-    <link href="https://fonts.googleapis.com/css?family=Sawarabi+Mincho" rel="stylesheet">
-    <meta charset="UTF-8">
-    <title>大江戸タイピング</title>
-  </head>
+  <%= render partial: "shared/header"%>
   <body>
     <div class="game-wrapper">
       <canvas id = "mycanvas" class="game-frame"></canvas>
@@ -16,9 +12,8 @@
         <%= link_to "ログイン", new_user_session_path, class: "links"%>
       <%end%>
       <%= link_to "ランキング", "#", class: "links"%>
-      <%= link_to "ストア", "#", class: "links"%>
+      <%= link_to "ストア", items_path, class: "links"%>
       <%= link_to "掲示板", "#", class: "links"%>
     </div>
-    
   </body>
 </html>

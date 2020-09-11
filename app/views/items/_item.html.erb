@@ -1,0 +1,16 @@
+<li class="item-wrapper">
+  <%=image_tag "chara/#{item.image_name}.png", class: "item-image"%>
+  <div class='item-info'>
+    <h3 class='item-name'>
+      <%=item.name%>
+    </h3>
+    <div class='item-price'>
+      <span><%="#{item.price}円"%></span>
+    </div>
+    <% if user_signed_in? && UserItem.find_by(user_id: current_user.id,item_id: item.id)%>
+      <p class="sold">購入済</p>
+    <% else %>
+      <%=button_to "購入する",order_item_path(item.id), class: "purchase-button",method: :post%>
+    <% end %>
+  </div>
+</li>

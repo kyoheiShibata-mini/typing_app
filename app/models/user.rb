@@ -10,8 +10,10 @@ class User < ApplicationRecord
     validates :password
   end
 
-  
   VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
   validates :password, format: { with: VALID_PASSWORD_REGEX }
+  
+  has_many :user_items
+  has_one :card, dependent: :destroy
   
 end
