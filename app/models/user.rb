@@ -14,5 +14,6 @@ class User < ApplicationRecord
   validates :password, format: { with: VALID_PASSWORD_REGEX }
   
   has_many :user_items
+  has_one :card, dependent: :destroy
   
 end

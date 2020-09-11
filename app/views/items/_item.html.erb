@@ -1,11 +1,5 @@
 <li class="item-wrapper">
   <%=image_tag "chara/#{item.image_name}.png", class: "item-image"%>
-  <% if item.user_items[current_user.id]%>
-    <%# 商品が売れていればsold outの表示 %>
-    <div class='sold-out'>
-      <span>Sold Out!!</span>
-    </div>
-  <% end %>
   <div class='item-info'>
     <h3 class='item-name'>
       <%=item.name%>
@@ -13,6 +7,10 @@
     <div class='item-price'>
       <span><%="#{item.price}円"%></span>
     </div>
-    <%=button_to "購入する",items_path, class: "purchase-button",method: :post%>
+    <% if user_signed_in? && UserItem.find_by(user_id: current_user.id,item_id: item.id)%>
+      <p class="sold">購入済</p>
+    <% else %>
+      <%=button_to "購入する",order_item_path(item.id), class: "purchase-button",method: :post%>
+    <% end %>
   </div>
 </li>
