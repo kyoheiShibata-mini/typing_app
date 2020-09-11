@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ja">
+  <%= render partial: "shared/header"%>
+  <body>
+    <div class="ranking-wrapper">
+      <div class="heading">
+        <h1 class="title">長者番付</h1>
+      </div>
+      <ul class="user-lineup">
+        <%= render partial: 'ranker', collection: @users %>
+      </ul>
+      <%=link_to "戻る",root_path,class: "links"%>
+    </div>
+  </body>
+</html>
