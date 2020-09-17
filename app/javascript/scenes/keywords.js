@@ -34,7 +34,7 @@ export function keywords(){
     setMask: function(length) {
       // マスク削除
       this.removeMask();
-      // RectangleShapeから作成
+      //RectangleShapeから作成
       var mask = RectangleShape({
         fill: 'silver',
         stroke: null,
@@ -44,6 +44,7 @@ export function keywords(){
       mask.alpha = 0.4;
       // 部分文字のラベル
       var label = Label({
+        fontFamily: 'YuMincho',
         text: this.text.substr(0, length),
         fontSize: KEYWORD_SIZE,
         fill: null,

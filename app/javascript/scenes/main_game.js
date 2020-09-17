@@ -10,12 +10,19 @@ export function main_game(){
   var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
   var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-  var BG_COLOR = setting.BG_COLOR;
   var KEYWORDS = null;
   var INTERVAL = setting.INTERVAL;
 
   var time_over = false;
   var type_success = false;
+
+  //コンティニュー時ここで初期化
+  var score = 0;
+  var total_type = 0;
+  var speed = 1;
+  var miss_key_array = [];
+  var score_rate = 1;
+
   phina.define('Main', {
     // 継承
     superClass: 'DisplayScene',
@@ -38,9 +45,7 @@ export function main_game(){
       bg.y = this.gridY.center();
       bg.width = SCREEN_WIDTH;
       bg.height = SCREEN_HEIGHT;
-      
-      // 背景色
-      this.backgroundColor = BG_COLOR;
+
       // グループ
       this.keywordGroup = DisplayElement().addChildTo(this);
       this.disableGroup = DisplayElement().addChildTo(this);
@@ -49,20 +54,18 @@ export function main_game(){
       this.checkBuffer = '';
       // キーワードのインデックス
       this.keyIndex = 0;
-      // レベル（文字数）
-      this.level = 2;
-      // スコア 
-      this.score = 0;
-      // ライフ
-      this.life = 1;
-      // ライフ表示
-      this.lifeLabel = Label({
-        text: 'LIFE: {0}'.format(this.life),
+      //リザルト変数の初期化
+      score = 0;
+      total_type = 0;
+      speed = 0;
+      miss_key_array = [];
+
+      this.score_label = Label({
+        text: 'SCORE: {0}'.format(score),
         fill: 'white',
         fontSize: KEYWORD_SIZE * 2 / 3, 
       }).addChildTo(this).setPosition(this.gridX.span(14), this.gridY.span(1));
-      // ライフ非表示
-      this.lifeLabel.hide();
+
       //タイプ制限時間
       var timeLimit = 5;
 
@@ -156,8 +159,8 @@ export function main_game(){
     },
     // キー入力時処理
     onkeydown: function(e) {
+      total_type++;
       // 入力文字をバッファに追加
-      //this.buffer += String.fromCharCode(e.keyCode);
       this.checkBuffer = this.buffer + String.fromCharCode(e.keyCode);
       // 比較 
       this.compare();
@@ -190,13 +193,29 @@ export function main_game(){
           // 完全一致
           if (self.buffer.length === str.length) {
             SoundManager.play('todome');
+            score += 100 * score_rate;
+            self.score_label.text = 'SCORE: {0}'.format(score);
+            score_rate = 1;
             // キーワード削除処理
             self.disable(keyword);
           }
           count++;
         }
+        //タイプミスの処理
         else {
+          if(score_rate > 0){
+            score_rate -= 0.1;
+          }
           SoundManager.play('miss1');
+          //ミスしたキーと回数を記録
+          const miss_key = str.charAt(checkBuffer.length-1);
+          const miss_key_obj = miss_key_array.find(({name})=> name === miss_key);
+          if(miss_key_obj == null){
+            const miss_key_obj = {name: miss_key, value: 1}; 
+            miss_key_array.push(miss_key_obj);
+          }else{
+            miss_key_obj.value++;
+          }
           // スペルミスの場合はマスク解除
           //keyword.removeMask();
         }
@@ -238,9 +257,10 @@ export function main_game(){
     showResult: function() {
       // リザルトシーンへ
       this.app.replaceScene(Result({
-        level: this.level,
-        score: this.score,
-        total: KEYWORDS.length,
+        score: score,
+        total_type: total_type,
+        speed: 100,
+        miss_key_array,
       }));      
     },
     // キーワードをロード

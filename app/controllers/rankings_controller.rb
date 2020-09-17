@@ -1,6 +1,6 @@
 class RankingsController < ApplicationController
   def index
-    @users = User.limit(10)
+    @results = Result.limit(10).order(score: "DESC")
     @user = User.new()
   end
 end

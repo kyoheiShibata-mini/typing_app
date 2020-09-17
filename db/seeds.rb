@@ -12,3 +12,18 @@ User.create!(
     {email: 'test10@test.com',name: 'テスト10郎',password: 'test0000'},
   ]
 )
+
+Result.create!(
+  [
+    {user_id: 1, score:100, total_type:10, speed: 100},
+    {user_id: 2, score:200, total_type:100, speed: 10},
+    {user_id: 3, score:300, total_type:10, speed: 100},
+    {user_id: 4, score:400, total_type:100, speed: 10},
+    {user_id: 5, score:500, total_type:10, speed: 100},
+    {user_id: 6, score:600, total_type:100, speed: 10},
+    {user_id: 7, score:700, total_type:10, speed: 100},
+    {user_id: 8, score:800, total_type:100, speed: 10},
+    {user_id: 9, score:900, total_type:10, speed: 100},
+    {user_id: 10, score:1000, total_type:100, speed: 10},
+  ]
+)
