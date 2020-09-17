@@ -9,8 +9,8 @@ export function result(){
   var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
   var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-  var COLORS = setting.COLORS;
-
+  var RESULT_SIZE = KEYWORD_SIZE * 1.2
+  
   phina.define('Result', {
     // 継承
     superClass: 'DisplayScene',
@@ -20,7 +20,34 @@ export function result(){
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
-      
+
+      //タイプミスの合計回数を算出
+      var miss_key_total = params.miss_key_array.reduce((prev,current)=>{return prev + current.value},0);
+      var miss_key_for_label = ""
+      params.miss_key_array.forEach(element => {
+        miss_key_for_label += element.name + " " + element.value + "回、\n";
+      });
+      console.log(this.miss_key_for_label);
+
+      //サーバーにリザルトを保存
+      const XHR = new XMLHttpRequest();
+      XHR.open("post", "/typings", true);
+      XHR.setRequestHeader("Content-Type", "application/json");
+      //jsonを初期化。前のプレイデータを持ち越してしまう
+      var json ={}
+      json = {
+        score: params.score,
+        total_type: params.total_type,
+        speed: params.speed,
+      };
+
+      params.miss_key_array.forEach(element => {
+        json[element.name] = element.value;
+      });
+
+      json = JSON.stringify(json);
+      console.log(json);
+      XHR.send(json);
 
       //背景画像
       var bg = Sprite('result_bg').addChildTo(this);
@@ -28,14 +55,9 @@ export function result(){
       bg.y = this.gridY.center();
       bg.width = SCREEN_WIDTH;
       bg.height = SCREEN_HEIGHT;
-      
-      var fontColor = 'rgb(255,255,255)';
-      var fontSize = SCREEN_HEIGHT / 10;
-      var buttonSize = SCREEN_HEIGHT / 4;
-      var cornerRadius = buttonSize / 4;
 
       var self = this;
-
+      
       var titleButton = Button({
         fontFamily: 'YuMincho',
         x: this.gridX.center(-2),
@@ -46,8 +68,8 @@ export function result(){
         fontSize: 32,       // 文字サイズ
         fontColor: 'white', // 文字色
         cornerRadius: 10,   // 角丸み
-        fill: 'blue',    // ボタン色
-        stroke: 'blue',     // 枠色
+        fill: 'red',    // ボタン色
+        stroke: 'darkred',     // 枠色
         strokeWidth: 5,     // 枠太さ
                             // 他にも指定できる…？
       }).addChildTo(this);
@@ -62,8 +84,8 @@ export function result(){
         fontSize: 32,       // 文字サイズ
         fontColor: 'white', // 文字色
         cornerRadius: 10,   // 角丸み
-        fill: 'blue',    // ボタン色
-        stroke: 'blue',     // 枠色
+        fill: 'red',    // ボタン色
+        stroke: 'darkred',     // 枠色
         strokeWidth: 5,     // 枠太さ
                             // 他にも指定できる…？
       }).addChildTo(this);
@@ -77,6 +99,53 @@ export function result(){
         SoundManager.stopMusic();
         self.exit("Main");
       };
+
+      var result_center = 0;
+
+      if(miss_key_total > 0){
+
+        result_center= -3;
+
+        this.miss_total_label = Label({
+          text: 'ミス回数: \n{0}'.format(miss_key_for_label),
+          fontFamily: 'YuMincho',
+          fontSize: RESULT_SIZE, 
+          fill: 'white',
+          stroke: 'black',
+          strokeWidth: 7,
+        }).addChildTo(this).setPosition(this.gridX.center(3), this.gridY.center());
+  
+      };
+
+      this.score_label = Label({
+        text: '得点: {0}'.format(params.score),
+        fontFamily: 'YuMincho',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 7,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-5));
+
+      this.total_type_label = Label({
+        text: 'タイプ数: {0}'.format(params.total_type),
+        fontFamily: 'YuMincho',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 7,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-2.5));
+
+      this.speed_label = Label({
+        text: '速度: {0}'.format(params.speed),
+        fontFamily: 'YuMincho',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 7,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center());
+      
+
+      
       /*
       this.fromJSON({
         children: {
