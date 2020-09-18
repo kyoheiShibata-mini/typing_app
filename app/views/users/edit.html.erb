@@ -8,7 +8,7 @@
       <div class="profile-image">
         <p class="profile-text">ユーザーアイコン</p>
         <%if @image_name%>
-          <%#=image_tag "chara/#{@image_name}.png", class: "item-image"%>
+          <%=image_tag "chara/#{@image_name}.png", class: "item-image"%>
         <% else %>
           <div class="item-image">
             <a class="no-image">
@@ -53,6 +53,7 @@
     
   <div class="links-wrapper">
     <%= link_to "戻る", user_path(@user.id), class: "links"%>
+     <%= link_to "トップ", root_path, class: "links"%>
     <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "links"%>
   </div>
 </center>
