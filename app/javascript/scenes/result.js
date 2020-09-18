@@ -58,7 +58,7 @@ export function result(){
       var self = this;
       
       var titleButton = Button({
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         x: this.gridX.center(-2),
         y: this.gridY.span(12),
         width: 150,         // 横サイズ
@@ -74,7 +74,7 @@ export function result(){
       }).addChildTo(this);
 
       var playButton = Button({
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         x: this.gridX.center(2),
         y: this.gridY.span(12),
         width: 150,         // 横サイズ
@@ -107,7 +107,7 @@ export function result(){
 
         this.miss_total_label = Label({
           text: 'ミス回数: \n{0}'.format(miss_key_for_label),
-          fontFamily: 'YuMincho',
+          fontFamily: 'HiraMinPro-W6',
           fontSize: RESULT_SIZE, 
           fill: 'white',
           stroke: 'black',
@@ -118,7 +118,7 @@ export function result(){
 
       this.score_label = Label({
         text: '得点: {0}'.format(params.score),
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         fontSize: RESULT_SIZE, 
         fill: 'white',
         stroke: 'black',
@@ -127,7 +127,7 @@ export function result(){
 
       this.total_type_label = Label({
         text: 'タイプ数: {0}'.format(params.total_type),
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         fontSize: RESULT_SIZE, 
         fill: 'white',
         stroke: 'black',
@@ -136,7 +136,7 @@ export function result(){
 
       this.speed_label = Label({
         text: '速度: {0}'.format(params.speed),
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         fontSize: RESULT_SIZE, 
         fill: 'white',
         stroke: 'black',
@@ -152,7 +152,7 @@ export function result(){
           scoreText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '{0} / {1}'.format(params.score, params.total),
               fill: fontColor,
               stroke: null,
@@ -165,7 +165,7 @@ export function result(){
           // shareButton: {
           //   className: 'Button',
           //   arguments: [{
-          //     fontFamily: 'YuMincho',
+          //     fontFamily: 'HiraMinPro-W6',
           //     text: 'Tweet',
           //     width: buttonSize,
           //     height: buttonSize,
@@ -181,7 +181,7 @@ export function result(){
           titleButton: {
             className: 'Button',
             arguments: [{
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: 'タイトル',
               width: buttonSize,
               height: buttonSize,
@@ -205,7 +205,7 @@ export function result(){
           playButton: {
             className: 'Button',
             arguments: [{
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '再挑戦',
               width: buttonSize,
               height: buttonSize,

@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       @latest_result = @user.results[@user.results.length-1]  
       @latest_miss_key = []
       if @latest_result.miss_key
-        miss_key_column = MissKey.attribute_names().reject { |n| n == "id" || n == "result" || n == "created_at" || n == "updated_at" }
+        miss_key_column = MissKey.attribute_names().reject { |n| n == "id" || n == "result_id" || n == "created_at" || n == "updated_at" }
         #タイプミスしたキーの情報を配列にまとめる
         miss_key_column.each do |column|
           if @latest_result.miss_key[column]

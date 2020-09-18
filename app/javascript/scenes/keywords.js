@@ -22,9 +22,12 @@ export function keywords(){
       this.text = keyword;
       // ラベル
       var label = Label({
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         text: this.text,
         fontSize: KEYWORD_SIZE,
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 7,
       }).addChildTo(this);
       // 実際のサイズ算出
       this.width = label.calcCanvasWidth();
@@ -44,7 +47,7 @@ export function keywords(){
       mask.alpha = 0.4;
       // 部分文字のラベル
       var label = Label({
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         text: this.text.substr(0, length),
         fontSize: KEYWORD_SIZE,
         fill: null,

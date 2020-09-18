@@ -13,6 +13,16 @@ export function main_game(){
   var KEYWORDS = null;
   var INTERVAL = setting.INTERVAL;
 
+  var ZAKO_SPRITE_ARRAY = ["asigaru","tujigiri","samurai","noumin"];
+  var BOSS_SPRITE_ARRAY = ["musya","mouri","ninja","busyou"];
+  var BOSS_BATTLE = false;
+  var BG = null;
+
+  //敵表示用スプライト 
+  var ENEMY_SPRITE_ARRAY = [];
+  var ATTACKED_ENEMY = null;
+  var KILL = 0;
+
   var time_over = false;
   var type_success = false;
 
@@ -40,13 +50,12 @@ export function main_game(){
       this.group_ef = DisplayElement().addChildTo(this);
 
       //背景画像
-      var bg = Sprite('main_bg').addChildTo(this.group_bg);
-      bg.x = this.gridX.center();
-      bg.y = this.gridY.center();
-      bg.width = SCREEN_WIDTH;
-      bg.height = SCREEN_HEIGHT;
-
-      // グループ
+      BG = Sprite('main_bg').addChildTo(this.group_bg);
+      BG.x = this.gridX.center();
+      BG.y = this.gridY.center();
+      BG.width = SCREEN_WIDTH;
+      BG.height = SCREEN_HEIGHT;
+       // グループ
       this.keywordGroup = DisplayElement().addChildTo(this);
       this.disableGroup = DisplayElement().addChildTo(this);
       // 入力文字バッファ
@@ -62,7 +71,10 @@ export function main_game(){
 
       this.score_label = Label({
         text: 'SCORE: {0}'.format(score),
+        fontFamily: 'HiraMinPro-W6',
         fill: 'white',
+        stroke: 'black',
+        strokeWidth: 7,
         fontSize: KEYWORD_SIZE * 2 / 3, 
       }).addChildTo(this).setPosition(this.gridX.span(14), this.gridY.span(1));
 
@@ -101,7 +113,7 @@ export function main_game(){
           timerGauge.value = 100;
         }
         else{
-          timerGauge.value -= timerGauge.maxValue/(timeLimit * 60);
+          //timerGauge.value -= timerGauge.maxValue/(timeLimit * 60);
         }
       };
       timerGauge.onresume = function(){
@@ -128,6 +140,16 @@ export function main_game(){
     update: function() {
       // 画面下到達チェック
       this.checkTimeUp();
+      if(KILL >= 6 && !BOSS_BATTLE){
+        BOSS_BATTLE = true;
+        SoundManager.playMusic("boss_bgm");
+        SoundManager.setVolumeMusic(0.5);
+        BG = Sprite('boss_bg').addChildTo(this.group_bg);
+        BG.x = this.gridX.center();
+        BG.y = this.gridY.center();
+        BG.width = SCREEN_WIDTH;
+        BG.height = SCREEN_HEIGHT;
+      };
     },
   
     // キーワード作成
@@ -138,9 +160,15 @@ export function main_game(){
       // 位置
       keyword.x = this.gridX.center();
       keyword.y = this.gridY.center(-3);
-      //モンスターイラスト表示
-      var enemy = this.createCharacter("tujigiri").addChildTo(this.group_chara);
 
+      //敵イラスト表示
+      if(KILL == 0 || KILL % 3 == 0){
+        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(4),this.gridY.center(3)).addChildTo(this.group_chara));
+        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(-4),this.gridY.center(3)).addChildTo(this.group_chara));
+        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(),this.gridY.center(3)).addChildTo(this.group_chara));
+
+        ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length)];
+      }
       //ゲージ制御用
       type_success = false;
     },
@@ -167,17 +195,20 @@ export function main_game(){
     },
     // 入力文字バッファと単語の比較
     compare: function() {
+      //攻撃する敵を決定
+      
       var checkBuffer = this.checkBuffer.toLowerCase();
       var count = 0;
       var self = this;
 
       this.keywordGroup.children.each(function(keyword) {
         var str = keyword.text.toLowerCase();
-        // 指定した文字で始まるか
+        // タイプ成功
         if (str.startsWith(checkBuffer)) {
+          
+          ATTACKED_ENEMY.damaged();
 
           self.hitEffect.gotoAndPlay('hit');
-
           self.buffer = checkBuffer;
           //効果音
           let random = Math.random();
@@ -192,6 +223,16 @@ export function main_game(){
           keyword.setMask(self.buffer.length);
           // 完全一致
           if (self.buffer.length === str.length) {
+            KILL++;
+            ATTACKED_ENEMY.death();
+            var i = ENEMY_SPRITE_ARRAY.indexOf(ATTACKED_ENEMY);
+            console.log("iは"+ i +"です");
+            ENEMY_SPRITE_ARRAY.splice(i,1);
+            console.log(ENEMY_SPRITE_ARRAY);
+            console.log("敵の数は"+ ENEMY_SPRITE_ARRAY.length + "です");
+
+            ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length)];
+
             SoundManager.play('todome');
             score += 100 * score_rate;
             self.score_label.text = 'SCORE: {0}'.format(score);
@@ -255,6 +296,7 @@ export function main_game(){
     },
     // 結果表示
     showResult: function() {
+      SoundManager.setVolumeMusic(0.05);
       // リザルトシーンへ
       this.app.replaceScene(Result({
         score: score,
@@ -282,6 +324,14 @@ export function main_game(){
       character.scaleY = 0.5;
 
       return character;
+    },
+
+    getRandomEnemy: function(){
+      if(BOSS_BATTLE){
+        return BOSS_SPRITE_ARRAY[Math.floor(Math.random()*BOSS_SPRITE_ARRAY.length)];
+      }else{
+        return ZAKO_SPRITE_ARRAY[Math.floor(Math.random()*ZAKO_SPRITE_ARRAY.length)];
+      }
     },
   });
 }

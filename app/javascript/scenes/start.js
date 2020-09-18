@@ -22,7 +22,7 @@ export function start(){
       this.counter = 3;
       
       var label2 = Label({
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         text:'クリックで開始',
         fill: fontColor,
         fontSize: SCREEN_HEIGHT / 8,

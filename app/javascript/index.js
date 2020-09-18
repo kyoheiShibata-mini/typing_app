@@ -3,6 +3,7 @@ import * as main_game from "scenes/main_game";
 import * as result from "scenes/result";
 import * as setting from "scenes/setting";
 import * as keywords from "scenes/keywords";
+import * as characters from "./scenes/characters";
 
 // グローバルに展開
 phina.globalize();
@@ -26,6 +27,7 @@ var ASSETS = {
     'todome': '../../assets/todome.mp3',
 
     'bgm': '../../assets/maturi.mp3',
+    'boss_bgm': '../../assets/boss_bgm.mp3',
     'result_bgm': '../../assets/result_bgm.mp3',
 
   },
@@ -36,12 +38,22 @@ var ASSETS = {
   },
   image: {
     'main_bg': '../../assets/main_bg.jpeg',
+    'boss_bg': '../../assets/boss_bg1.jpg',
     'title_bg': '../../assets/title_bg.jpg',
     'result_bg': '../../assets/result_bg.jpg',
 
+    //雑魚敵
     'asigaru': '../../assets/chara/asigaru.png',
     'tujigiri': '../../assets/chara/tujigiri.png',
-    'asigaru': '../../assets/chara/asigaru.png',
+    'samurai': '../../assets/chara/samurai.png',
+    'noumin': '../../assets/chara/noumin.png',
+
+    //ボス
+    'mouri': '../../assets/chara/mouri.png',
+    'musya': '../../assets/chara/musya.png',
+    'ninja': '../../assets/chara/ninja.png',
+    'busyou': '../../assets/chara/busyou.png',
+
     'hit': '../../assets/effect/hit.png',
   },
   spritesheet: {
@@ -69,6 +81,7 @@ title.title();
 main_game.main_game();
 result.result();
 keywords.keywords();
+characters.characters();
 
 /*
  * メイン処理

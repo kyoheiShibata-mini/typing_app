@@ -39,7 +39,7 @@ export function title(){
           titleText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '大江戸タイピング',
               fill: 'red',
               stroke: 'yellow',
@@ -53,7 +53,7 @@ export function title(){
           subtitleText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '~ 家事と喧嘩は江戸の花 ~',
               fill: 'red',
               stroke: 'yellow',
@@ -67,7 +67,7 @@ export function title(){
           startText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '開始',
               fill: 'white',
               stroke: null,
