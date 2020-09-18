@@ -27,7 +27,6 @@ export function result(){
       params.miss_key_array.forEach(element => {
         miss_key_for_label += element.name + " " + element.value + "回、\n";
       });
-      console.log(this.miss_key_for_label);
 
       //サーバーにリザルトを保存
       const XHR = new XMLHttpRequest();
@@ -39,6 +38,7 @@ export function result(){
         score: params.score,
         total_type: params.total_type,
         speed: params.speed,
+        miss_key_total: miss_key_total,
       };
 
       params.miss_key_array.forEach(element => {
@@ -46,7 +46,6 @@ export function result(){
       });
 
       json = JSON.stringify(json);
-      console.log(json);
       XHR.send(json);
 
       //背景画像

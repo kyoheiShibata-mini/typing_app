@@ -1,6 +1,6 @@
 <div class="ranker">
   <p class="rank"><%= "#{@results.index(result)+1}位" %></p>
-  <%=image_tag "chara/tonosama.png", class: "ranker-image"%>
+  <%=image_tag "chara/#{Item.find(result.user.active_image).image_name}.png", class: "ranker-image"%>
   <p class="ranker-name"><%= result.user.name %></p>
   <p class="score"><%=result.score%></p>
 </div>
