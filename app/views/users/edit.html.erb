@@ -1,0 +1,58 @@
+<center>
+  <div class="heading">
+    <h1 class="title"><%="プロフィール編集"%></h1>
+  </div>
+
+  <div class="profile-wrapper">
+    <%= form_with model: @user,url: user_path,method: "patch", local: true do |f| %>
+      <div class="profile-image">
+        <p class="profile-text">ユーザーアイコン</p>
+        <%if @image_name%>
+          <%#=image_tag "chara/#{@image_name}.png", class: "item-image"%>
+        <% else %>
+          <div class="item-image">
+            <a class="no-image">
+              画像なし
+            </a>
+          </div>
+        <% end %>
+        <%#画像プルダウンメニュー%>
+        <%= f.select :active_image, @item_array, include_blank: "選択して下さい", id: "icon_menu" %>
+      </div>
+      <div>
+        <div class="FormField">
+          <div class="FormField__name">
+            <%= f.label :name %>
+          </div>
+          <div class="FormField__name">
+            <%= f.text_field :name, autofocus: true %>
+          </div>
+        </div>
+        <div class="FormField">
+          <div class="FormField__email">
+            <%= f.label :email %>
+          </div>
+          <div class="FormField__email">
+            <%= f.email_field :email %>
+          </div>
+          <br>
+        </div>
+        <div class="FormField">
+          <div class="FormField__email">
+            <%= f.label :password %>
+          </div>
+          <div class="FormField__email">
+            <%= f.password_field :password %>
+          </div>
+          <br>
+        </div>
+        <%= f.submit "更新する" %>
+      </div>
+    <%end%>
+  </div>
+    
+  <div class="links-wrapper">
+    <%= link_to "戻る", user_path(@user.id), class: "links"%>
+    <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "links"%>
+  </div>
+</center>

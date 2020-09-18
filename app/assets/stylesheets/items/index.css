@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px auto;
 }
 
 .heading{
@@ -13,6 +12,7 @@
   font-weight: bold;
   background-color: darkred;
   text-align: center;
+  margin-top: 30px;
   margin-bottom:30px;
 }
 
@@ -47,7 +47,6 @@
   padding: 10px;
   display: block;
   margin: auto;
-  margin-top : calc(calc(300px - 260px) / 2);
 }
 
 .item-info{
