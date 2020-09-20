@@ -26,12 +26,19 @@ export function main_game(){
   var time_over = false;
   var type_success = false;
 
-  //コンティニュー時ここで初期化
   var score = 0;
   var total_type = 0;
-  var speed = 1;
   var miss_key_array = [];
   var score_rate = 1;
+  var count = 0;
+  var miss_count = 0;
+
+  //制限時間
+  var time = 10;
+  //経過時間
+  var past_time = 0;
+  //残り時間
+  var left_time = time;
 
   phina.define('Main', {
     // 継承
@@ -66,17 +73,26 @@ export function main_game(){
       //リザルト変数の初期化
       score = 0;
       total_type = 0;
-      speed = 0;
       miss_key_array = [];
 
       this.score_label = Label({
-        text: 'SCORE: {0}'.format(score),
+        text: '得点: {0}'.format(score),
         fontFamily: 'HiraMinPro-W6',
         fill: 'white',
         stroke: 'black',
         strokeWidth: 7,
         fontSize: KEYWORD_SIZE * 2 / 3, 
       }).addChildTo(this).setPosition(this.gridX.span(14), this.gridY.span(1));
+
+      //残り時間
+      this.time_label = Label({
+        text: '残り時間: {0}'.format(time),
+        fontFamily: 'HiraMinPro-W6',
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 7,
+        fontSize: KEYWORD_SIZE * 2 / 3, 
+      }).addChildTo(this).setPosition(this.gridX.span(5), this.gridY.span(1));
 
       //タイプ制限時間
       var timeLimit = 5;
@@ -123,6 +139,11 @@ export function main_game(){
 
     // シーンに入ったら
     onenter: function() {
+      //前回のプレイを初期化
+      left_time = time;
+      past_time = 0;
+      KILL = 0;
+      BOSS_BATTLE = false;
       // キーワードをロード
       this.loadKeywords();
       //カウントシーンを挿入
@@ -137,7 +158,16 @@ export function main_game(){
     },
     
     // 毎フレーム更新処理
-    update: function() {
+    update: function(app) {
+      //残り時間計測
+      if(left_time > 0){
+        past_time += app.deltaTime/1000;
+        left_time = time - Math.floor(past_time);
+        this.time_label.text = '残り時間: {0}'.format(left_time);
+      }else{
+        this.showResult();
+      };
+      
       // 画面下到達チェック
       this.checkTimeUp();
       if(KILL >= 6 && !BOSS_BATTLE){
@@ -198,7 +228,6 @@ export function main_game(){
       //攻撃する敵を決定
       
       var checkBuffer = this.checkBuffer.toLowerCase();
-      var count = 0;
       var self = this;
 
       this.keywordGroup.children.each(function(keyword) {
@@ -249,6 +278,7 @@ export function main_game(){
           }
           SoundManager.play('miss1');
           //ミスしたキーと回数を記録
+          miss_count++;
           const miss_key = str.charAt(checkBuffer.length-1);
           const miss_key_obj = miss_key_array.find(({name})=> name === miss_key);
           if(miss_key_obj == null){
@@ -300,8 +330,8 @@ export function main_game(){
       // リザルトシーンへ
       this.app.replaceScene(Result({
         score: score,
-        total_type: total_type,
-        speed: 100,
+        total_type: (total_type - miss_count),
+        speed: Math.floor((total_type - miss_count)/time * 10)/10,
         miss_key_array,
       }));      
     },

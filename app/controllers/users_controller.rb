@@ -63,6 +63,7 @@ class UsersController < ApplicationController
         end
       end
     end
+
     if @user.active_image
       @item = Item.find(@user.active_image)
       @image_name = @item.image_name

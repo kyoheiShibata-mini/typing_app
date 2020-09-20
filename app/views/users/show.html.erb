@@ -39,7 +39,7 @@
       <%if @user.results%>
         <p class="profile-text"><%="前回のスコア"%></p>
         得点：<%=@latest_result.score%><br>
-        速度：<%=@latest_result.speed%><br>
+        速度(タイプ数/秒)：<%=@latest_result.speed%><br>
         <%if @latest_result.miss_key%>
           ミスしたキー：
           <table border="1">
