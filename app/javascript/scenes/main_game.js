@@ -1,7 +1,8 @@
 import * as start from "scenes/start";
+import * as finish from "scenes/finish";
 import * as setting from "scenes/setting";
 import * as play_record_channel from "channels/play_record_channel";
-import { keywords } from "../channels/play_record_channel";
+
 /*
   * メインシーン
   */
@@ -12,14 +13,22 @@ export function main_game(){
   var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
   var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-  var KEYWORDS = null;
   var INTERVAL = setting.INTERVAL;
 
   var KEYWORDS2 = null;
+  var EASY_KEYWORDS = [];
+  var NORMAL_KEYWORDS = [];
+  var HARD_KEYWORDS = [];
+  var CURRENT_KEYWORDS = EASY_KEYWORDS;
 
-  var ZAKO_SPRITE_ARRAY = ["asigaru","tujigiri","samurai","noumin"];
-  var BOSS_SPRITE_ARRAY = ["musya","mouri","ninja","busyou"];
-  var BOSS_BATTLE = false;
+  var EASY_SPRITE_ARRAY = ["noumin","gakusya","ronin","montosyu"];
+  var NORMAL_SPRITE_ARRAY = ["asigaru","tujigiri","samurai","syonin","kunoiti","onmyouji"];
+  var HARD_SPRITE_ARRAY = ["musya","mouri","ninja","busyou","benkei","tonosama"];
+  var CURRENT_SPRITE_ARRAY = EASY_SPRITE_ARRAY;
+
+  var HARD_MODE = false;
+  var NORMAL_MODE = false;
+  var GAME_END = false;
   var BG = null;
 
   //敵表示用スプライト 
@@ -28,7 +37,7 @@ export function main_game(){
   var KILL = 0;
 
   var time_over = false;
-  var type_success = false;
+  var type_end = false;
 
   var score = 0;
   var total_type = 0;
@@ -61,7 +70,7 @@ export function main_game(){
       this.group_ef = DisplayElement().addChildTo(this);
 
       //背景画像
-      BG = Sprite('main_bg').addChildTo(this.group_bg);
+      BG = Sprite('nouson_bg').addChildTo(this.group_bg);
       BG.x = this.gridX.center();
       BG.y = this.gridY.center();
       BG.width = SCREEN_WIDTH;
@@ -101,12 +110,6 @@ export function main_game(){
       //タイプ制限時間
       var timeLimit = 5;
 
-      //エフェクト
-      var sprite = Sprite('hit', 64, 64).addChildTo(this.group_ef);
-      this.hitEffect = FrameAnimation('hit_ss').attachTo(sprite);          
-      sprite.x = this.gridX.center();
-      sprite.y = this.gridY.center();
-
       //タイマーゲージ
       var timerGauge = Gauge({
         x: 320, y: 150,        // x,y座標
@@ -129,8 +132,9 @@ export function main_game(){
       };  
       
       timerGauge.update= function(){
-        if(type_success){
+        if(type_end){
           timerGauge.value = 100;
+          type_end = false;
         }
         else{
           timerGauge.value -= timerGauge.maxValue/(timeLimit * 60);
@@ -143,23 +147,34 @@ export function main_game(){
 
     // シーンに入ったら
     onenter: function() {
-      //前回のプレイを初期化
-      left_time = time;
-      past_time = 0;
-      KILL = 0;
-      BOSS_BATTLE = false;
-      ENEMY_SPRITE_ARRAY = [];
+      this.initializeMain();
       // キーワードをロード
       this.loadKeywords();
       //カウントシーンを挿入
       start.start();
-      this.app.pushScene(Start(this.level));
+      this.app.pushScene(Start());
+    },
+
+    initializeMain: function(){
+      //前回のプレイを初期化
+      GAME_END = false;
+      left_time = time;
+      past_time = 0;
+      KILL = 0;
+      NORMAL_MODE = false;
+      HARD_MODE = false;
+      ENEMY_SPRITE_ARRAY = [];
+      miss_count = 0;
+      CURRENT_SPRITE_ARRAY = EASY_SPRITE_ARRAY;
+      CURRENT_KEYWORDS = EASY_KEYWORDS;
     },
 
     // シーンに復帰した時
     onresume:function() {
+      this.initializeMain();
       // キーワード作成
       this.createKeyword();
+      this.createEnemy();
     },
     
     // 毎フレーム更新処理
@@ -169,14 +184,35 @@ export function main_game(){
         past_time += app.deltaTime/1000;
         left_time = time - Math.floor(past_time);
         this.time_label.text = '残り時間: {0}'.format(left_time);
-      }else{
-        this.showResult();
+      }else if(!GAME_END){
+        GAME_END = true;
+        finish.finish();
+        this.app.pushScene(Finish({
+          score: score,
+          total_type: (total_type - miss_count),
+          speed: Math.floor((total_type - miss_count)/time * 10)/10,
+          miss_key_array,
+        }));
+        //this.showResult();
       };
       
       // 画面下到達チェック
       this.checkTimeUp();
-      if(KILL >= 21 && !BOSS_BATTLE){
-        BOSS_BATTLE = true;
+
+      //モードセッティング
+      if(KILL >= 12 && !NORMAL_MODE){
+        NORMAL_MODE = true;
+        CURRENT_KEYWORDS = NORMAL_KEYWORDS;
+        CURRENT_SPRITE_ARRAY = NORMAL_SPRITE_ARRAY;
+        BG = Sprite('main_bg').addChildTo(this.group_bg);
+        BG.x = this.gridX.center();
+        BG.y = this.gridY.center();
+        BG.width = SCREEN_WIDTH;
+        BG.height = SCREEN_HEIGHT;
+      }else if(KILL >= 21 && !HARD_MODE){
+        HARD_MODE = true;
+        CURRENT_KEYWORDS = HARD_KEYWORDS;
+        CURRENT_SPRITE_ARRAY = HARD_SPRITE_ARRAY;
         SoundManager.playMusic("boss_bgm");
         SoundManager.setVolumeMusic(0.5);
         BG = Sprite('boss_bg').addChildTo(this.group_bg);
@@ -189,15 +225,17 @@ export function main_game(){
   
     // キーワード作成
     createKeyword: function() {
-      var self = this;
-      var next_word= KEYWORDS2[this.keyIndex];
+      var random_num = this.getRandom(CURRENT_KEYWORDS.length);
+      var next_word= CURRENT_KEYWORDS[random_num];
       // キーワード作成
       var keyword = Keyword(next_word.type_text,next_word.display_text).addChildTo(this.keywordGroup);
+      CURRENT_KEYWORDS.splice(random_num,1);
       // 位置
       keyword.x = this.gridX.center();
       keyword.y = this.gridY.center(-3);
+    },
 
-      //敵イラスト表示
+    createEnemy: function(){
       if(KILL == 0 || KILL % 3 == 0){
         ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(4),this.gridY.center(3)).addChildTo(this.group_chara));
         ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(-4),this.gridY.center(3)).addChildTo(this.group_chara));
@@ -205,8 +243,6 @@ export function main_game(){
 
         ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length)];
       }
-      //ゲージ制御用
-      type_success = false;
     },
 
     // 入力時間終了
@@ -216,8 +252,8 @@ export function main_game(){
         if(time_over){
           keyword.remove();
           time_over = false;
-          // ミス処理
-          self.showResult();
+          type_end = true;
+          self.createKeyword();
         }
       });
     },
@@ -243,7 +279,8 @@ export function main_game(){
           
           ATTACKED_ENEMY.damaged();
 
-          self.hitEffect.gotoAndPlay('hit');
+          var hitEffect = self.createHitEffect();
+          hitEffect.gotoAndPlay('hit');
           self.buffer = checkBuffer;
           //効果音
           let random = Math.random();
@@ -308,7 +345,7 @@ export function main_game(){
       // インデックス更新
       this.keyIndex++;
       //ゲージ制御用
-      type_success = true;
+      type_end = true;
       //モンスター画像削除
       
       // 削除アニメーション
@@ -317,20 +354,16 @@ export function main_game(){
                     .wait(INTERVAL)
                     .call(function() {
                         keyword.remove();
-                        //全単語終わったらゲーム終了
-                        if (self.keyIndex > KEYWORDS2.length -1) {
-                          self.showResult();
-                          return;
-                        }
                         //次のキーワード作成
                         self.createKeyword();
+                        self.createEnemy();
                       }).play();
     },
     // 結果表示
     showResult: function() {
       SoundManager.setVolumeMusic(0.05);
       // リザルトシーンへ
-      this.app.replaceScene(Result({
+      this.app.replaceScene(Finish({
         score: score,
         total_type: (total_type - miss_count),
         speed: Math.floor((total_type - miss_count)/time * 10)/10,
@@ -341,20 +374,32 @@ export function main_game(){
     loadKeywords: function() {
       KEYWORDS2 = play_record_channel.keywords;
       KEYWORDS2.sort(function(a, b) { return a.type_text.length - b.type_text.length; });
-      //--
-      //var keywords = AssetManager.get('text', 'keywords');
-      // 改行で分けて配列として格納
-      //KEYWORDS = keywords.data.split(/\r\n|\n/);
-      // 文字数の小さい順に並べる
-      //KEYWORDS.sort(function(a, b) { return a.length - b.length; });
+      KEYWORDS2.forEach(element => {
+        if(element.type_text.length <= 6){
+          EASY_KEYWORDS.push(element);
+        }else if(element.type_text.length <= 10){
+          NORMAL_KEYWORDS.push(element);
+        }else{
+          HARD_KEYWORDS.push(element);
+        }
+      });
     },
 
     getRandomEnemy: function(){
-      if(BOSS_BATTLE){
-        return BOSS_SPRITE_ARRAY[Math.floor(Math.random()*BOSS_SPRITE_ARRAY.length)];
-      }else{
-        return ZAKO_SPRITE_ARRAY[Math.floor(Math.random()*ZAKO_SPRITE_ARRAY.length)];
-      }
+      return CURRENT_SPRITE_ARRAY[this.getRandom(CURRENT_SPRITE_ARRAY.length)];
+    },
+
+    getRandom: function(num){
+      return Math.floor(Math.random()*num);
+    },
+
+    createHitEffect: function(){
+      //エフェクト
+      var sprite = Sprite('hit', 64, 64).addChildTo(this.group_ef);
+      var hitEffect = FrameAnimation('hit_ss').attachTo(sprite);          
+      sprite.x = ATTACKED_ENEMY.x + this.getRandom(100)-50;
+      sprite.y = ATTACKED_ENEMY.y + this.getRandom(100)-50;
+      return hitEffect;
     },
   });
 }

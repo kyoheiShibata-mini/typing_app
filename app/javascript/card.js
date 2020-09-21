@@ -33,4 +33,6 @@ const pay = () => {
   });
  };
 
-window.addEventListener("load", pay);
+ if (document.URL.match( /edit/ )) {
+  window.addEventListener("load", pay);
+ };

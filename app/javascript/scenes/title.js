@@ -23,16 +23,16 @@ export function title(){
         height: SCREEN_HEIGHT,
       });
 
-    //背景画像
-    var bg = Sprite('title_bg').addChildTo(this);
-    bg.x = this.gridX.center();
-    bg.y = this.gridY.center();
-    bg.width = SCREEN_WIDTH;
-    bg.height = SCREEN_HEIGHT;
+      //背景画像
+      var bg = Sprite('title_bg').addChildTo(this);
+      bg.x = this.gridX.center();
+      bg.y = this.gridY.center();
+      bg.width = SCREEN_WIDTH;
+      bg.height = SCREEN_HEIGHT;
+      
+      var self = this;
 
       this.backgroundColor = BG_COLOR;
-      var fontColor = 'rgb(255,255,255)';
-      var buttonSize = 168;
 
       this.fromJSON({
         children: {
@@ -95,7 +95,7 @@ export function title(){
     onpointend: function() {
       SoundManager.play("start");
       // 次のシーンへ
-      this.exit();
+      this.app.replaceScene(Main());
     },
   });
 }

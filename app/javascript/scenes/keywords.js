@@ -65,7 +65,6 @@ export function keywords(){
           x: pos_moji,
         }).addChildTo(this);
         pos_moji += str_interval;
-        console.log(pos_moji);
         text_array.push(moji);
       };
     },
