@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.ranker{
+.ranker-wrapper{
   width: 70vw;
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
@@ -16,7 +16,7 @@
 }
 
 .rank{
-  width: 70px;
+  width: 7%;
   font-size: 30px;
   margin: 0 10px;
   
@@ -30,12 +30,13 @@
 }
 
 .ranker-name{
-  width: 500px;
+  width: 20%;
   font-size: 30px;
   margin-left: 20px;
 }
 
 .score{
+  width: 25%;
   font-size: 30px;
   margin-left: 20px;
 }

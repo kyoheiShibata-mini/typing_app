@@ -9,7 +9,7 @@ export function result(){
   var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
   var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-  var RESULT_SIZE = KEYWORD_SIZE * 1.2
+  var RESULT_SIZE = KEYWORD_SIZE;
   
   phina.define('Result', {
     // 継承
@@ -20,12 +20,21 @@ export function result(){
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
-
+      SoundManager.setVolumeMusic(0.05);
       //タイプミスの合計回数を算出
       var miss_key_total = params.miss_key_array.reduce((prev,current)=>{return prev + current.value},0);
-      var miss_key_for_label = ""
-      params.miss_key_array.forEach(element => {
-        miss_key_for_label += element.name + " " + element.value + "回、\n";
+
+      //タイプミス表示用のテキストを作成
+      var miss_key_for_label = "";
+      var miss_key_array = params.miss_key_array.sort(function(a, b) { return b.value - a.value; });
+
+      miss_key_array.forEach(function(element,index){
+        if(index <=5){
+          miss_key_for_label += element.name + " :" + element.value + "回、";
+          if((index + 1) % 3 == 0){
+            miss_key_for_label += "\n";
+          };
+        };
       });
 
       //サーバーにリザルトを保存
@@ -58,8 +67,8 @@ export function result(){
       var self = this;
       
       var titleButton = Button({
-        fontFamily: 'YuMincho',
-        x: this.gridX.center(-2),
+        fontFamily: 'HiraMinPro-W6',
+        x: this.gridX.center(-4),
         y: this.gridY.span(12),
         width: 150,         // 横サイズ
         height: 100,        // 縦サイズ
@@ -74,8 +83,8 @@ export function result(){
       }).addChildTo(this);
 
       var playButton = Button({
-        fontFamily: 'YuMincho',
-        x: this.gridX.center(2),
+        fontFamily: 'HiraMinPro-W6',
+        x: this.gridX.center(4),
         y: this.gridY.span(12),
         width: 150,         // 横サイズ
         height: 100,        // 縦サイズ
@@ -89,36 +98,61 @@ export function result(){
                             // 他にも指定できる…？
       }).addChildTo(this);
       
+      var shareButton = Button({
+        fontFamily: 'HiraMinPro-W6',
+        x: this.gridX.center(0),
+        y: this.gridY.span(12),
+        width: 150,         // 横サイズ
+        height: 100,        // 縦サイズ
+        text: "twitter",     // 表示文字
+        fontSize: 32,       // 文字サイズ
+        fontColor: 'white', // 文字色
+        cornerRadius: 10,   // 角丸み
+        fill: 'blue',    // ボタン色
+        stroke: 'darkblue',     // 枠色
+        strokeWidth: 5,     // 枠太さ
+                            // 他にも指定できる…？
+      }).addChildTo(this);
+
       titleButton.onpointend = function(){
         SoundManager.stopMusic();
-        self.exit("Title");
+        //self.exit("Title");
+        self.app.replaceScene(Title());
       };
 
       playButton.onpointend = function(){
         SoundManager.stopMusic();
-        self.exit("Main");
+        //self.exit("Main");
+        self.app.replaceScene(Main());
+      };
+
+      shareButton.onpointend = function(){
+        var text = '得点:{0},速度(タイプ数/秒):{1}\n'.format(params.score, params.speed);
+        var url = phina.social.Twitter.createURL({
+          text: text,
+          hashtags: '大江戸タイピング',
+          url: 'URLが入ります\n',
+        });
+        window.open(url, 'share window', 'width=480, height=320');
       };
 
       var result_center = 0;
 
       if(miss_key_total > 0){
-
         result_center= -3;
-
         this.miss_total_label = Label({
-          text: 'ミス回数: \n{0}'.format(miss_key_for_label),
-          fontFamily: 'YuMincho',
-          fontSize: RESULT_SIZE, 
+          text: 'ミスが多かったキー: \n{0}'.format(miss_key_for_label),
+          fontFamily: 'HiraMinPro-W6',
+          fontSize: RESULT_SIZE *0.8, 
           fill: 'white',
           stroke: 'black',
           strokeWidth: 7,
-        }).addChildTo(this).setPosition(this.gridX.center(3), this.gridY.center());
-  
+        }).addChildTo(this).setPosition(this.gridX.center(4), this.gridY.center(-2));
       };
 
       this.score_label = Label({
         text: '得点: {0}'.format(params.score),
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         fontSize: RESULT_SIZE, 
         fill: 'white',
         stroke: 'black',
@@ -127,7 +161,7 @@ export function result(){
 
       this.total_type_label = Label({
         text: 'タイプ数: {0}'.format(params.total_type),
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         fontSize: RESULT_SIZE, 
         fill: 'white',
         stroke: 'black',
@@ -136,7 +170,7 @@ export function result(){
 
       this.speed_label = Label({
         text: '速度: {0}'.format(params.speed),
-        fontFamily: 'YuMincho',
+        fontFamily: 'HiraMinPro-W6',
         fontSize: RESULT_SIZE, 
         fill: 'white',
         stroke: 'black',
@@ -152,7 +186,7 @@ export function result(){
           scoreText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '{0} / {1}'.format(params.score, params.total),
               fill: fontColor,
               stroke: null,
@@ -165,7 +199,7 @@ export function result(){
           // shareButton: {
           //   className: 'Button',
           //   arguments: [{
-          //     fontFamily: 'YuMincho',
+          //     fontFamily: 'HiraMinPro-W6',
           //     text: 'Tweet',
           //     width: buttonSize,
           //     height: buttonSize,
@@ -181,7 +215,7 @@ export function result(){
           titleButton: {
             className: 'Button',
             arguments: [{
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: 'タイトル',
               width: buttonSize,
               height: buttonSize,
@@ -205,7 +239,7 @@ export function result(){
           playButton: {
             className: 'Button',
             arguments: [{
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '再挑戦',
               width: buttonSize,
               height: buttonSize,
@@ -228,16 +262,7 @@ export function result(){
         } 
       });
         */   
-      // ツイートボタンが押された時      
-      // this.shareButton.onclick = function() {
-      //   var text = '難易度 {0} shot keywords {0} / {1}'.format(params.score, params.total);
-      //   var url = phina.social.Twitter.createURL({
-      //     text: text,
-      //     hashtags: 'phina_js,game,keyword_shot',
-      //     url: 'https://alkn203.github.io/phina-games/keyword-shot/',
-      //   });
-      //   window.open(url, 'share window', 'width=480, height=320');
-      // };
+      
     },
     
     onenter: function() {

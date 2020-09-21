@@ -5,6 +5,8 @@ class TypingsController < ApplicationController
   end
 
   def new 
+    @keywords = Keyword.all
+    ActionCable.server.broadcast "play_record_channel", keywords: @keywords
   end
   
   def create

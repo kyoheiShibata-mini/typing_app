@@ -15,14 +15,8 @@ export function main_game(){
     var BG_COLOR = 'rgb(39,40,34)';
     var KEYWORDS = null;
     var INTERVAL = 1000;
-    var CONTINUE = 3;
-    // アセット
-    var ASSETS = {
-      // キーワード一覧
-      text: {
-        'keywords': 'https://cdn.jsdelivr.net/gh/alkn203/phina-games@master/keyword-shot/assets/keywords',
-      },
-    };
+
+
   phina.define('Main', {
   
     // 継承

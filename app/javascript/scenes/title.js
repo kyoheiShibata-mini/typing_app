@@ -23,23 +23,23 @@ export function title(){
         height: SCREEN_HEIGHT,
       });
 
-    //背景画像
-    var bg = Sprite('title_bg').addChildTo(this);
-    bg.x = this.gridX.center();
-    bg.y = this.gridY.center();
-    bg.width = SCREEN_WIDTH;
-    bg.height = SCREEN_HEIGHT;
+      //背景画像
+      var bg = Sprite('title_bg').addChildTo(this);
+      bg.x = this.gridX.center();
+      bg.y = this.gridY.center();
+      bg.width = SCREEN_WIDTH;
+      bg.height = SCREEN_HEIGHT;
+      
+      var self = this;
 
       this.backgroundColor = BG_COLOR;
-      var fontColor = 'rgb(255,255,255)';
-      var buttonSize = 168;
 
       this.fromJSON({
         children: {
           titleText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '大江戸タイピング',
               fill: 'red',
               stroke: 'yellow',
@@ -53,7 +53,7 @@ export function title(){
           subtitleText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '~ 家事と喧嘩は江戸の花 ~',
               fill: 'red',
               stroke: 'yellow',
@@ -67,7 +67,7 @@ export function title(){
           startText: {
             className: 'Label',
             arguments: {
-              fontFamily: 'YuMincho',
+              fontFamily: 'HiraMinPro-W6',
               text: '開始',
               fill: 'white',
               stroke: null,
@@ -82,8 +82,12 @@ export function title(){
       this.startText.tweener.fadeOut(1000).fadeIn(1000).setLoop(true).play();
     },
     
-    // タッチ時
     onenter: function() {
+      //サーバーからkeywordテーブルのデータを取得
+      const XHR = new XMLHttpRequest();
+      XHR.open("GET", "/typings/new");
+      XHR.send();
+
       SoundManager.stop();
     },
 
@@ -91,7 +95,7 @@ export function title(){
     onpointend: function() {
       SoundManager.play("start");
       // 次のシーンへ
-      this.exit();
+      this.app.replaceScene(Main());
     },
   });
 }

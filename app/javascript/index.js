@@ -1,8 +1,11 @@
 import * as title from "scenes/title";
 import * as main_game from "scenes/main_game";
 import * as result from "scenes/result";
+import * as finish from "scenes/finish";
+
 import * as setting from "scenes/setting";
 import * as keywords from "scenes/keywords";
+import * as characters from "./scenes/characters";
 
 // グローバルに展開
 phina.globalize();
@@ -26,6 +29,7 @@ var ASSETS = {
     'todome': '../../assets/todome.mp3',
 
     'bgm': '../../assets/maturi.mp3',
+    'boss_bgm': '../../assets/boss_bgm.mp3',
     'result_bgm': '../../assets/result_bgm.mp3',
 
   },
@@ -36,12 +40,34 @@ var ASSETS = {
   },
   image: {
     'main_bg': '../../assets/main_bg.jpeg',
+    'boss_bg': '../../assets/boss_bg1.jpg',
     'title_bg': '../../assets/title_bg.jpg',
     'result_bg': '../../assets/result_bg.jpg',
+    'nouson_bg': '../../assets/nouson_bg.jpg',
 
+    //イージー敵
+    'noumin': '../../assets/chara/noumin.png',
+    'gakusya': '../../assets/chara/gakusya.png',
+    'ronin': '../../assets/chara/ronin.png',
+    'montosyu': '../../assets/chara/montosyu.png',
+
+    //ノーマル敵
     'asigaru': '../../assets/chara/asigaru.png',
     'tujigiri': '../../assets/chara/tujigiri.png',
-    'asigaru': '../../assets/chara/asigaru.png',
+    'samurai': '../../assets/chara/samurai.png',
+    'syonin': '../../assets/chara/syonin.png',
+    'kunoiti': '../../assets/chara/kunoiti.png',
+    'onmyouji': '../../assets/chara/onmyouji.png',
+
+    //ハード敵    
+    'mouri': '../../assets/chara/mouri.png',
+    'musya': '../../assets/chara/musya.png',
+    'ninja': '../../assets/chara/ninja.png',
+    'busyou': '../../assets/chara/busyou.png',
+    'benkei': '../../assets/chara/benkei.png',
+    'tonosama': '../../assets/chara/tonosama.png',
+
+
     'hit': '../../assets/effect/hit.png',
   },
   spritesheet: {
@@ -69,6 +95,8 @@ title.title();
 main_game.main_game();
 result.result();
 keywords.keywords();
+characters.characters();
+finish.finish();
 
 /*
  * メイン処理
@@ -101,6 +129,12 @@ phina.main(function() {
         className: 'Result',
         label: 'Result',
         nextLabel: 'Title',
+      },
+
+      {
+        className: 'Finish',
+        label: 'Finish',
+        nextLabel: 'Result',
       },
     ],
     startLabel: 'Title',
