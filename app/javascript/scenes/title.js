@@ -82,8 +82,12 @@ export function title(){
       this.startText.tweener.fadeOut(1000).fadeIn(1000).setLoop(true).play();
     },
     
-    // タッチ時
     onenter: function() {
+      //サーバーからkeywordテーブルのデータを取得
+      const XHR = new XMLHttpRequest();
+      XHR.open("GET", "/typings/new");
+      XHR.send();
+
       SoundManager.stop();
     },
 

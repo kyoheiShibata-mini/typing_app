@@ -1,5 +1,7 @@
 import * as start from "scenes/start";
 import * as setting from "scenes/setting";
+import * as play_record_channel from "channels/play_record_channel";
+import { keywords } from "../channels/play_record_channel";
 /*
   * メインシーン
   */
@@ -12,6 +14,8 @@ export function main_game(){
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
   var KEYWORDS = null;
   var INTERVAL = setting.INTERVAL;
+
+  var KEYWORDS2 = null;
 
   var ZAKO_SPRITE_ARRAY = ["asigaru","tujigiri","samurai","noumin"];
   var BOSS_SPRITE_ARRAY = ["musya","mouri","ninja","busyou"];
@@ -34,7 +38,7 @@ export function main_game(){
   var miss_count = 0;
 
   //制限時間
-  var time = 10;
+  var time = 60;
   //経過時間
   var past_time = 0;
   //残り時間
@@ -107,7 +111,7 @@ export function main_game(){
       var timerGauge = Gauge({
         x: 320, y: 150,        // x,y座標
         width: 400,            // 横サイズ
-        height: 30,            // 縦サイズ
+        height: 20,            // 縦サイズ
         cornerRadius: 10,      // 角丸み
         maxValue: 100,         // ゲージ最大値
         value: 100,         // ゲージ初期値
@@ -118,7 +122,7 @@ export function main_game(){
       }).addChildTo(this);
 
       timerGauge.animation =false;
-      timerGauge.setPosition(this.gridX.center(), this.gridY.center(-5));;
+      timerGauge.setPosition(this.gridX.center(), this.gridY.center(-5.5));;
 
       timerGauge.onempty = function() {
         time_over = true;
@@ -129,7 +133,7 @@ export function main_game(){
           timerGauge.value = 100;
         }
         else{
-          //timerGauge.value -= timerGauge.maxValue/(timeLimit * 60);
+          timerGauge.value -= timerGauge.maxValue/(timeLimit * 60);
         }
       };
       timerGauge.onresume = function(){
@@ -144,6 +148,7 @@ export function main_game(){
       past_time = 0;
       KILL = 0;
       BOSS_BATTLE = false;
+      ENEMY_SPRITE_ARRAY = [];
       // キーワードをロード
       this.loadKeywords();
       //カウントシーンを挿入
@@ -170,7 +175,7 @@ export function main_game(){
       
       // 画面下到達チェック
       this.checkTimeUp();
-      if(KILL >= 6 && !BOSS_BATTLE){
+      if(KILL >= 21 && !BOSS_BATTLE){
         BOSS_BATTLE = true;
         SoundManager.playMusic("boss_bgm");
         SoundManager.setVolumeMusic(0.5);
@@ -185,8 +190,9 @@ export function main_game(){
     // キーワード作成
     createKeyword: function() {
       var self = this;
+      var next_word= KEYWORDS2[this.keyIndex];
       // キーワード作成
-      var keyword = Keyword(KEYWORDS[this.keyIndex]).addChildTo(this.keywordGroup);
+      var keyword = Keyword(next_word.type_text,next_word.display_text).addChildTo(this.keywordGroup);
       // 位置
       keyword.x = this.gridX.center();
       keyword.y = this.gridY.center(-3);
@@ -249,19 +255,15 @@ export function main_game(){
             SoundManager.play('type3');
           };
           // 一致部分をマスク
-          keyword.setMask(self.buffer.length);
+          //keyword.setMask(self.buffer.length);
+          keyword.changeColor(self.buffer.length);
           // 完全一致
           if (self.buffer.length === str.length) {
             KILL++;
             ATTACKED_ENEMY.death();
             var i = ENEMY_SPRITE_ARRAY.indexOf(ATTACKED_ENEMY);
-            console.log("iは"+ i +"です");
-            ENEMY_SPRITE_ARRAY.splice(i,1);
-            console.log(ENEMY_SPRITE_ARRAY);
-            console.log("敵の数は"+ ENEMY_SPRITE_ARRAY.length + "です");
-
-            ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length)];
-
+            var enemy_left = ENEMY_SPRITE_ARRAY.splice(i,1).length;
+            ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * enemy_left)];
             SoundManager.play('todome');
             score += 100 * score_rate;
             self.score_label.text = 'SCORE: {0}'.format(score);
@@ -316,7 +318,7 @@ export function main_game(){
                     .call(function() {
                         keyword.remove();
                         //全単語終わったらゲーム終了
-                        if (self.keyIndex > KEYWORDS.length -1) {
+                        if (self.keyIndex > KEYWORDS2.length -1) {
                           self.showResult();
                           return;
                         }
@@ -337,23 +339,14 @@ export function main_game(){
     },
     // キーワードをロード
     loadKeywords: function() {
-      var keywords = AssetManager.get('text', 'keywords');
+      KEYWORDS2 = play_record_channel.keywords;
+      KEYWORDS2.sort(function(a, b) { return a.type_text.length - b.type_text.length; });
+      //--
+      //var keywords = AssetManager.get('text', 'keywords');
       // 改行で分けて配列として格納
-      KEYWORDS = keywords.data.split(/\r\n|\n/);
+      //KEYWORDS = keywords.data.split(/\r\n|\n/);
       // 文字数の小さい順に並べる
-      KEYWORDS.sort(function(a, b) { return a.length - b.length; });
-    },
-
-    //キャライラスト表示
-    createCharacter: function(name){
-      const character = Sprite(name);
-    
-      character.x = this.gridX.center();
-      character.y = this.gridY.center(2);
-      character.scaleX = 0.5;
-      character.scaleY = 0.5;
-
-      return character;
+      //KEYWORDS.sort(function(a, b) { return a.length - b.length; });
     },
 
     getRandomEnemy: function(){

@@ -1,5 +1,7 @@
 import consumer from "./consumer"
 
+export var keywords = {};
+
 consumer.subscriptions.create("PlayRecordChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
@@ -10,6 +12,6 @@ consumer.subscriptions.create("PlayRecordChannel", {
   },
 
   received(data) {
-    // Called when there's incoming data on the websocket for this channel
+    keywords = data.keywords;
   }
 });

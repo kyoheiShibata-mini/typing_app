@@ -29,6 +29,7 @@ export function start(){
       }).addChildTo(this).setPosition(this.gridX.center(), this.gridY.center());
     },
     onpointend: function() {
+      
       //BGM再生
       SoundManager.setVolumeMusic(0.05);
       SoundManager.playMusic("bgm");
