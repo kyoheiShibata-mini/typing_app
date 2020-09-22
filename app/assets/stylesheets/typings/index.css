@@ -1,10 +1,3 @@
-body {
-  background: 
-    linear-gradient(45deg, #84a2d4 25%, transparent 25%, transparent 75%, #84a2d4 75%) 0 0 / 240px 240px,
-    linear-gradient(45deg, #84a2d4 25%, transparent 25%, transparent 75%, #84a2d4 75%) 120px 120px / 240px 240px,
-    #a2d7dd;
-}
-
  .game-wrapper{
   display: flex;
   flex-direction: column;

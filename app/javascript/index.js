@@ -33,11 +33,7 @@ var ASSETS = {
     'result_bgm': '../../assets/result_bgm.mp3',
 
   },
-  // キーワード一覧
-  text: {
-    'keywords': '../../assets/keywords.text',
-    //'keywords': 'https://cdn.jsdelivr.net/gh/alkn203/phina-games@master/keyword-shot/assets/keywords',
-  },
+  
   image: {
     'main_bg': '../../assets/main_bg.jpeg',
     'boss_bg': '../../assets/boss_bg1.jpg',

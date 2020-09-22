@@ -1,7 +1,15 @@
 <div class="ranker-wrapper">
   <p class="rank"><%= "#{@results.index(result)+1}位" %></p>
   <%=image_tag "chara/#{Item.find(result.user.active_image).image_name}.png", class: "ranker-image"%>
-  <p class="ranker-name"><%= result.user.name %></p>
-  <p class="score">得点：<%=result.score%></p>
-  <p class="score"><%="速度：#{result.speed}"%></p>
+  <div class ="ranker-info">
+    <div class="ranker-name-wrapper">
+      <p class="ranker-name"><%= result.user.name %></p>
+    </div>
+    <div class="score-wrapper">
+      <a class="score-column">得点</a>
+      <p class="score"><%=result.score%></p>
+      <a class="score-column">速度</a>
+      <p class="score"><%=result.speed%>打/秒</p>
+    </div>
+  </div>
 </div>

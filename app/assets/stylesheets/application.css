@@ -14,8 +14,22 @@
  *= require_self
  */
 
-
+ body {
+  background-color:#eaedf7;
+  background-image:
+  radial-gradient(circle at 100% 150%, #eaedf7 24%, white 24%, white 28%, #eaedf7 28%, #eaedf7 36%, white 36%, white 40%, transparent 40%, transparent),
+  radial-gradient(circle at 0    150%, #eaedf7 24%, white 24%, white 28%, #eaedf7 28%, #eaedf7 36%, white 36%, white 40%, transparent 40%, transparent),
+  radial-gradient(circle at 50%  100%, white 10%, #eaedf7 10%, #eaedf7 23%, white 23%, white 30%, #eaedf7 30%, #eaedf7 43%, white 43%, white 50%, #eaedf7 50%, #eaedf7 63%, white 63%, white 71%, transparent 71%, transparent),
+  radial-gradient(circle at 100% 50%, white 5%, #eaedf7 5%, #eaedf7 15%, white 15%, white 20%, #eaedf7 20%, #eaedf7 29%, white 29%, white 34%, #eaedf7 34%, #eaedf7 44%, white 44%, white 49%, transparent 49%, transparent),
+  radial-gradient(circle at 0    50%, white 5%, #eaedf7 5%, #eaedf7 15%, white 15%, white 20%, #eaedf7 20%, #eaedf7 29%, white 29%, white 34%, #eaedf7 34%, #eaedf7 44%, white 44%, white 49%, transparent 49%, transparent);
+  background-size: 100px 50px;
+}
 
 body{
+  height: 100%;
+  width: 100vw;
   font-family: "Sawarabi Mincho";
+  position: relative;
+  padding-bottom: 100px;/*←footerの高さ*/
+  box-sizing: border-box;/*←全て含めてmin-height:100vhに*/
 }

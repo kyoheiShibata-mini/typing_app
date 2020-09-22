@@ -10,8 +10,10 @@
     <script src="https://js.pay.jp/" , type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Sawarabi+Mincho" rel="stylesheet">
   </head>
-
   <body>
+    <%= render partial: 'shared/header'%>
     <%= yield %>
+    <%= render partial: 'shared/footer'%>
   </body>
+  
 </html>
