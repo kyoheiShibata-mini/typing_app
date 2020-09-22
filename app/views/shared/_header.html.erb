@@ -1,0 +1,38 @@
+<div class="header">
+  <p class="header-title"> 大江戸タイピング</p>
+  <div class="header-manu">
+    <%#=request.path%>
+    <%#トップリンク%>
+    <%if request.path == "/"%>
+      <p class="current-link">TOP</p>
+    <% else %>
+      <%= link_to "TOP", root_path, class: "header-link"%>
+    <% end %>
+    <%#ユーザーリンク%>
+    <%if current_user%>
+      <%if request.path == "/users/#{current_user.id}"%>
+        <p class="current-link">マイページ</p>
+      <% else %>
+        <%= link_to "マイページ", user_path(current_user.id), class: "header-link"%>
+      <% end %>
+    <% else %>
+      <%if request.path == "/users/sign_in" || request.path == "/users/sign_up"%>
+        <p class="current-link">ログイン</p>
+      <% else %>
+        <%= link_to "ログイン", new_user_session_path, class: "header-link"%>
+      <% end %>
+    <% end %>
+    <%#ランキングリンク%>
+    <%if request.path == "/ranking"%>
+      <p class="current-link">ランキング</p>
+    <% else %>
+      <%= link_to "ランキング", ranking_path, class: "header-link"%>
+    <% end %>
+    <%#ストアリンク%>
+    <%if request.path == "/items"%>
+      <p class="current-link">ストア</p>
+    <% else %>
+      <%= link_to "ストア", items_path, class: "header-link"%>
+    <% end %>
+  </div>
+</div>

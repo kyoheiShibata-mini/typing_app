@@ -33,6 +33,6 @@ const pay = () => {
   });
  };
 
- if (document.URL.match( /edit/ )) {
+ if (document.URL.match( /cards/ )) {
   window.addEventListener("load", pay);
  };

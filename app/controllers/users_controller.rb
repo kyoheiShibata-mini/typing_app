@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    
   end
 
   def edit
@@ -50,7 +51,7 @@ class UsersController < ApplicationController
       @card = customer.cards.first
     end
 
-    if @user.results
+    if @user.results.length != 0
       @latest_result = @user.results[@user.results.length-1]  
       @latest_miss_key = []
       if @latest_result.miss_key
@@ -61,13 +62,17 @@ class UsersController < ApplicationController
             @latest_miss_key.push({name: column, value: @latest_result.miss_key[column]})
           end
         end
+        @latest_miss_key.sort! {|x,y| y[:value]<=>x[:value]}
       end
     end
 
     if @user.active_image
       @item = Item.find(@user.active_image)
       @image_name = @item.image_name
-
+    end
+    
+    if @user.user_items.length != 0
+      
       @item_array = []
       @user.user_items.each do |user_item|
         item = Item.find(user_item[:item_id])

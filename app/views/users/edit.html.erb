@@ -17,7 +17,9 @@
           </div>
         <% end %>
         <%#画像プルダウンメニュー%>
-        <%= f.select :active_image, @item_array, include_blank: "選択して下さい", id: "icon_menu" %>
+        <%if current_user.user_items.length != 0%>
+          <%= f.select :active_image, @item_array, include_blank: "選択して下さい", id: "icon_menu" %>
+        <% end %>
       </div>
       <div>
         <div class="FormField">
@@ -52,8 +54,6 @@
   </div>
     
   <div class="links-wrapper">
-    <%= link_to "戻る", user_path(@user.id), class: "links"%>
-     <%= link_to "トップ", root_path, class: "links"%>
     <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "links"%>
   </div>
 </center>

@@ -1,42 +1,106 @@
 .ranking-wrapper{
-  width: 100vw;
+  width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin:10px auto;
+  border: solid 4px #897858;
+  border-radius: 30px;
 }
 
+.ranking-title{
+  width: 100%;
+  background-color: #897858;
+  color: white;
+  font-size: 50px;
+  font-weight: bolder;
+  text-align: center;
+  text-shadow: 2px 2px 0 #715c1f; 
+  padding: 10px 0;
+  border-radius: 25px 25px 0 0;
+}
+
+.user-lineup{
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px 0;
+  border-radius: 0 0 25px 25px;
+}
+
+
 .ranker-wrapper{
-  width: 70vw;
+  height: 150px;
+  width: 900px;
   background-color: white;
-  box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
-  margin-bottom: 20px;
+  padding: 10px;
+  box-shadow: 0 0 0 5px #e6b422 inset,0 0 0 10px #e0ebaf inset,5px 5px 5px rgba(0,0,0,0.4);
+  margin: 20px auto;
   display: flex;
   justify-content: left;
   align-items: center;
+  border: solid 5px white;
+  border-radius: 30px;
+  background-color: #e6b422;
 }
 
 .rank{
-  width: 7%;
-  font-size: 30px;
-  margin: 0 10px;
-  
+  width: 12%;
+  color: white;
+  font-size: 35px;
+  font-weight: bolder;
+  text-align: center;
+  text-shadow:0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00,0 0 3px #f00;
 }
 
 .ranker-image{
-  height: 100px;
-  width: 100px;
+  width: 130px;
+  height: 130px;
   padding: 10px;
   background: linear-gradient(white 30%,skyblue 100%);
+  border: solid 5px #e0ebaf;
+}
+
+.ranker-info{
+  width: 100%;
+  height: 100%;
+}
+
+.ranker-name-wrapper{
+  height: 55%;
 }
 
 .ranker-name{
-  width: 20%;
-  font-size: 30px;
+  width: 50%;
+  color: white;
+  font-size: 40px;
   margin-left: 20px;
+  text-shadow: 2px 2px 0 #715c1f; 
+}
+
+.score-wrapper{
+  height: 45%;
+  background-color: white;
+  border-radius: 0 0 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-column{
+  color: white;
+  width: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #59b9c6;
+  border: solid 2px white;
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px #59b9c6;
+  padding: 10px;
+  text-align: center;
 }
 
 .score{
   width: 25%;
-  font-size: 30px;
+  font-size: 24px;
   margin-left: 20px;
 }

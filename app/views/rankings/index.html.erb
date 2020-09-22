@@ -1,9 +1,6 @@
 <div class="ranking-wrapper">
-  <div class="heading">
-    <h1 class="title">長者番付</h1>
-  </div>
+  <h1 class="ranking-title">長者番付</h1>
   <ul class="user-lineup">
     <%= render partial: 'result', collection: @results %>
   </ul>
-  <%=link_to "戻る",root_path,class: "links"%>
 </div>

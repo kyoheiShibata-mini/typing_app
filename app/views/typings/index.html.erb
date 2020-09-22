@@ -1,14 +1,5 @@
 <body>
   <div class="game-wrapper">
     <canvas id = "mycanvas" class="game-frame"></canvas>
-  <div>
-  <div class="links-wrapper">
-    <%if user_signed_in?%>
-      <%= link_to "マイページ", user_path(current_user.id), class: "links"%>
-    <%else%>
-      <%= link_to "ログイン", new_user_session_path, class: "links"%>
-    <%end%>
-    <%= link_to "ランキング", ranking_path, class: "links"%>
-    <%= link_to "ストア", items_path, class: "links"%>
   </div>
 </body>
