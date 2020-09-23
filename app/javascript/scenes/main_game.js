@@ -370,6 +370,8 @@ export function main_game(){
     // キーワードをロード
     loadKeywords: function() {
       KEYWORDS2 = play_record_channel.keywords;
+
+      console.log("KEYWORD2:"+KEYWORDS2);
       KEYWORDS2.sort(function(a, b) { return a.type_text.length - b.type_text.length; });
       KEYWORDS2.forEach(element => {
         if(element.type_text.length <= 6){

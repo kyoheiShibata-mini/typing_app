@@ -12,7 +12,7 @@
 }
 
 .game-frame{
-  border: solid 3px black;
+  border: solid 5px #ffea00;
   box-shadow: 0 0 0 5px #e6b422 inset,0 0 0 10px #e0ebaf inset;
 }
 
