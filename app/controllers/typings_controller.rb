@@ -6,6 +6,7 @@ class TypingsController < ApplicationController
 
   def new 
     @keywords = Keyword.all
+    logger.debug "@keywordsの中身: #{@keywords.length}"
     ActionCable.server.broadcast "play_record_channel", keywords: @keywords
   end
   
