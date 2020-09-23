@@ -1,7 +1,10 @@
 <body>
   <div class="item-page">
     <h1 class="items-title">御品書</h1>
-    <p class="item-explain">購入した画像はマイページでアイコンに設定できます。</p>
+    <p class="item-explain">・購入した画像はマイページでアイコンに設定できます。</p>
+    <%if !user_signed_in? || !current_user.card%>
+      <p class="item-explain">・購入にはユーザー登録およびクレジットカードの登録が必要です。</p>
+    <% end %>
     <ul class="item-lineup">
       <%= render partial: "item", collection: @items %>
     </ul>

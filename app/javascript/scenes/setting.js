@@ -1,5 +1,6 @@
-export  var SCREEN_WIDTH = 16 * 60; 
-export  var SCREEN_HEIGHT = 9 * 60; 
+export  var SCREEN_WIDTH = 16 * 60 * 1.2; 
+export  var SCREEN_HEIGHT = 9 * 60 *1.2;
+export  var CHARACTER_SCALE = 0.6;
 export  var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
 export  var KEYWORD_SPEED_X = 6;
 export  var KEYWORD_SPEED_Y = -10;

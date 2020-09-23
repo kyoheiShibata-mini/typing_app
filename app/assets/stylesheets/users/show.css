@@ -1,10 +1,32 @@
+.mypage-wrap{
+  width: 800px;
+  border-radius: 25px;
+}
+
+.mypage-title{
+  background-color: #897858;
+  color: white;
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: center;
+  border-radius: 25px 25px 0 0;
+}
+
+
 .profile-wrapper{
   background-color: white;
-  width: 800px;
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 2px #897858;
+  border-radius: 0 0 25px 25px;
+  padding: 30px auto;
+}
+
+.profile-info{
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin: 35px auto;
 }
 
 .no-image{
@@ -13,37 +35,112 @@
   padding: auto;
 }
 
-.profile{
-  display: flex; 
-  flex-direction: column;
-  align-items: center;
-  margin-left: 50px;
+.right-profile{
+  margin-left: 40px;
+  text-align: left;
 }
 
-.profile-text{
-  width: 100%;
+.name-text{
   font-size: 20px;
   font-weight: bold;
-  background-color: yellowgreen;
+  margin: 20px 0;
+  margin-bottom: 80px;
 }
 
 .edit-button{
-  color: black;
-  width: 80px;
-  height: 25px;
-  background-color: lightgray;
+  color: white;
+  background-color: #38a1db	;
   text-decoration: none;
-  line-height: 25px;
-  padding: 10px;
-  border: solid 1px black;
-  margin-left: 100px;
-  margin-top: 80px;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.other-profile{
+  width: 90%;
+  padding: 30px 0;
+  display: flex; 
+  justify-content: space-around;
+  border-top: solid 1px black;
+}
+
+.head-text{
+  width: 100%;
+  font-size: 18px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.card-info{
+  box-sizing: border-box;           /* 罫線も含む長さ     */
+  width: 40%;
+  border-right: dotted gray 3px ;
+  text-align: left;
+}
+
+.profile-column{
+  width: 90%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: left;
+  border-bottom: solid 1px lightgray;
+}
+
+.column-name{
+  width: 100px;
+}
+
+.resent-result{
+  box-sizing: border-box;
+  width: 60%;
+  text-align: left;
+  padding-left: 40px;
+}
+
+.miss-key-tables{
+  display: flex;
+  justify-content: left;
 }
 
 .miss-key-table{
+  margin-left: 10px;
+}
+
+.miss-key-content{
   text-align: center;
-  font-size: 20px;
-  width:30%;
+  font-size: 15px;
+  width:40px;
   height: 30px;
   padding: 3px;
+}
+
+.miss-key-content-yellow{
+  text-align: center;
+  font-size: 15px;
+  width:40px;
+  height: 30px;
+  padding: 3px;
+  background-color: #f8e58c;
+}
+
+.miss-key-content-red{
+  text-align: center;
+  font-size: 15px;
+  width:40px;
+  height: 30px;
+  padding: 3px;
+  background-color: #d8a373;
+}
+
+.links{
+  width: 180px;
+  height: 60px;
+  font-size: 18px;
+  line-height: 60px;
+  text-align: center;
+  color: white;
+  background-color: #513743;
+  border: solid 1px white;
+  text-decoration: none;
+  font-weight: bolder;
+  margin: 30px auto;
 }

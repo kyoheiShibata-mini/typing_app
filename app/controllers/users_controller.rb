@@ -76,7 +76,7 @@ class UsersController < ApplicationController
       @item_array = []
       @user.user_items.each do |user_item|
         item = Item.find(user_item[:item_id])
-        @item_array.push([item.name,item.id])
+        @item_array.push([item.name,item.image_name])
       end
     end
   end

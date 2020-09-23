@@ -1,10 +1,10 @@
 <div class="header">
-  <p class="header-title"> 大江戸タイピング</p>
+  <%= link_to "大江戸タイピング", root_path, class: "header-title"%>
   <div class="header-manu">
     <%#=request.path%>
     <%#トップリンク%>
     <%if request.path == "/"%>
-      <p class="current-link">TOP</p>
+      <div class="current-link">TOP</div>
     <% else %>
       <%= link_to "TOP", root_path, class: "header-link"%>
     <% end %>
