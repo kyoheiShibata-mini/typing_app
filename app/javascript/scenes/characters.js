@@ -3,9 +3,6 @@ import * as setting from "scenes/setting";
 export function characters(){
   phina.globalize();
 
-  var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
-  var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-
   phina.define("Character", {
     // 継承
     superClass: 'Sprite',
@@ -15,15 +12,15 @@ export function characters(){
       this.superInit(image);
       this.x = posX;
       this.y = posY;
-      this.scaleX = 0.3;
-      this.scaleY = 0.3;
+      this.scaleX = setting.CHARACTER_SCALE;
+      this.scaleY = setting.CHARACTER_SCALE;
       this.alpha = 0;
 
       this.idle();
     },
     idle: function(){
-      this.tweener.to({scaleX: 0.49,scaleY: 0.46,alpha: 1}, 500, 'easeInOutQuad')
-      .to({scaleX: 0.5,scaleY: 0.5,}, 500, 'easeInOutQuad')
+      this.tweener.by({scaleX: - 0.01,scaleY: -0.04,alpha: 1}, 500, 'easeInOutQuad')
+      .by({scaleX: 0.01,scaleY: 0.04,}, 500, 'easeInOutQuad')
       .setLoop(true).play();
     },
     damaged: function(){

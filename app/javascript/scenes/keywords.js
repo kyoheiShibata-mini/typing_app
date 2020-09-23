@@ -48,7 +48,7 @@ export function keywords(){
         fill: 'white',
         stroke: 'black',
         strokeWidth: 5,
-        y :-40
+        y :-48
       }).addChildTo(this);
 
       text_array = [];
@@ -65,6 +65,12 @@ export function keywords(){
           x: pos_moji,
         }).addChildTo(this);
         pos_moji += str_interval;
+        if(this.text[i+1] == "m"){
+          pos_moji += str_interval/2;
+        };
+        if(moji.text == "m"){
+          pos_moji += str_interval/3;
+        };
         text_array.push(moji);
       };
     },
@@ -72,37 +78,6 @@ export function keywords(){
     //文字色を変える
     changeColor: function(num){
       text_array[num-1].fill = "gray";
-    },
-    // マスクをかける
-    setMask: function(length) {
-      // マスク削除
-      this.removeMask();
-      //RectangleShapeから作成
-      var mask = RectangleShape({
-        fill: 'silver',
-        stroke: null,
-        cornerRadius: KEYWORD_SIZE / 8,
-      }).addChildTo(this);
-      // 透明度
-      mask.alpha = 0.4;
-      // 部分文字のラベル
-      var label = Label({
-        fontFamily: 'HiraMinPro-W6',
-        text: this.text.substr(0, length),
-        fontSize: KEYWORD_SIZE,
-        fill: null,
-      }).addChildTo(this);
-      // 実際のサイズ算出
-      mask.width = label.calcCanvasWidth();
-      mask.height = label.calcCanvasHeight();
-      // 左端に合わせる
-      mask.x = -this.width / 2 + mask.width / 2;
-      // 参照用
-      this.mask = mask;
-    },
-    // マスクを消す
-    removeMask: function() {
-      if (this.mask) this.mask.remove();
     },
   });
 }

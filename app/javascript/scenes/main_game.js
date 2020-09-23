@@ -237,8 +237,8 @@ export function main_game(){
 
     createEnemy: function(){
       if(KILL == 0 || KILL % 3 == 0){
-        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(4),this.gridY.center(3)).addChildTo(this.group_chara));
-        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(-4),this.gridY.center(3)).addChildTo(this.group_chara));
+        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(4.5),this.gridY.center(3)).addChildTo(this.group_chara));
+        ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(-4.5),this.gridY.center(3)).addChildTo(this.group_chara));
         ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(),this.gridY.center(3)).addChildTo(this.group_chara));
 
         ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length)];
@@ -291,8 +291,6 @@ export function main_game(){
           }else{
             SoundManager.play('type3');
           };
-          // 一致部分をマスク
-          //keyword.setMask(self.buffer.length);
           keyword.changeColor(self.buffer.length);
           // 完全一致
           if (self.buffer.length === str.length) {
@@ -302,8 +300,8 @@ export function main_game(){
             var enemy_left = ENEMY_SPRITE_ARRAY.splice(i,1).length;
             ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * enemy_left)];
             SoundManager.play('todome');
-            score += 100 * score_rate;
-            self.score_label.text = 'SCORE: {0}'.format(score);
+            score += (10 * keyword.text.length) * score_rate;
+            self.score_label.text = '得点: {0}'.format(Math.floor(score));
             score_rate = 1;
             // キーワード削除処理
             self.disable(keyword);
@@ -349,8 +347,7 @@ export function main_game(){
       //モンスター画像削除
       
       // 削除アニメーション
-      keyword.tweener.set({stroke: 'lime', cornerRadius: KEYWORD_SIZE / 8,})
-                    .fadeOut(200)
+      keyword.tweener.fadeOut(200)
                     .wait(INTERVAL)
                     .call(function() {
                         keyword.remove();
@@ -397,8 +394,10 @@ export function main_game(){
       //エフェクト
       var sprite = Sprite('hit', 64, 64).addChildTo(this.group_ef);
       var hitEffect = FrameAnimation('hit_ss').attachTo(sprite);          
-      sprite.x = ATTACKED_ENEMY.x + this.getRandom(100)-50;
-      sprite.y = ATTACKED_ENEMY.y + this.getRandom(100)-50;
+      sprite.x = ATTACKED_ENEMY.x + this.getRandom(200)-100;
+      sprite.y = ATTACKED_ENEMY.y + this.getRandom(200)-100;
+      sprite.scaleX = 1.5;
+      sprite.scaleY = 1.5;
       return hitEffect;
     },
   });

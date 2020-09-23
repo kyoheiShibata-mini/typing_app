@@ -17,6 +17,8 @@
 .header-title{
   width: 300px;
   white-space: nowrap;
+  text-decoration: none;
+  color: white;
 }
 
 .header-manu{
