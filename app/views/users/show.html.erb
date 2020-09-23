@@ -1,11 +1,8 @@
 <center>
-  <div class="heading">
-    <h1 class="title"><%="#{@user.name}のマイページ"%></h1>
-  </div>
-
+<div class="mypage-wrap">
+  <h1 class="mypage-title">マイページ</h1>
   <div class="profile-wrapper">
-    <div class="profile-image">
-      <p class="profile-text">ユーザーアイコン</p>
+    <div class="profile-info">
       <%if @image_name%>
         <%=image_tag "chara/#{@image_name}.png", class: "item-image"%>
       <% else %>
@@ -15,48 +12,79 @@
           </a>
         </div>
       <% end %>
+      <div class="right-profile">
+        <p class="name-text"><%=@user.name%></p>
+        <%= link_to "編集", edit_user_path, class: "edit-button"%>
+      </div>
     </div>
-    <div class="profile">
-      <p class="profile-text">登録カード情報</p>
-
-      <%if @card%>
-        <div class="Card_info">
-          【カード番号】
-          <br>
-          <%= "**** **** **** " + @card[:last4] %>
-          <%# カード番号の下4桁を取得 %>
-          <br>
-          【有効期限】
-          <br>
-          <%= @card[:exp_month] %>
-          <%# 有効期限の「月」を取得 %>
-          /
-          <%= @card[:exp_year] %>
-          <%# 有効期限の「年」を取得 %>
-          <br>
-        </div>
-      <%end%>
-      <%if @latest_result%>
-        <p class="profile-text"><%="前回のスコア"%></p>
-        得点：<%=@latest_result.score%><br>
-        速度(タイプ数/秒)：<%=@latest_result.speed%><br>
-        <%if @latest_result.miss_key%>
-          ミスしたキー：
-          <table border="1">
-            <%@latest_miss_key.each do |miss_key|%>
-              <tr>
-                <td class="miss-key-table"><%=miss_key[:name]%></td>
-                <td class="miss-key-table"><%=miss_key[:value]%>回</td>
-              </tr>
-            <% end %>
-          </table>
+    <div class="other-profile">
+      <div class="card-info">
+        <%if @card%>
+          <p class="head-text">【登録カード情報】</p>
+          <div class="Card_info">
+            <div class="profile-column">
+              <div class="column-name">カード番号：</div><%= "**** **** **** " + @card[:last4] %>
+              <%# カード番号の下4桁を取得 %>
+            </div>
+            <div class="profile-column">
+              <div class="column-name">有効期限：</div>
+              <%=@card[:exp_month] %>
+              <%# 有効期限の「月」を取得 %>
+              /
+              <%= @card[:exp_year] %>
+              <%# 有効期限の「年」を取得 %>
+            </div>
+          </div>
+        <% else %>
+          カードが登録されていません。
+        <%end%>
+      </div>
+      <div class="resent-result">
+        <%if @latest_result%>
+          <p class="head-text">【前回のスコア】</p>
+          <div class="profile-column">
+            <div class="column-name">プレイ日時：</div>
+            <%=@latest_result.created_at%>
+          </div>
+          <div class="profile-column">
+            <div class="column-name">得点：</div>
+            <%=@latest_result.score%>
+          </div>
+          <div class="profile-column">
+            <div class="column-name">速度：</div>
+            <%=@latest_result.speed%>打/秒
+          </div>
+          <%if @latest_result.miss_key%>
+              ミスしたキー：
+            <div class="miss-key-tables">
+              <table border="2" class="miss-key-table">
+                <%@latest_miss_key.each_with_index do |miss_key, index|%>
+                  <%if index % (@latest_miss_key.length/3.to_f).ceil == 0%>
+                    </table>
+                    <table border="2" class="miss-key-table">
+                  <% end %>
+                  <tr>
+                    <%if miss_key[:value] >= 10%>
+                      <td class="miss-key-content-red"><%=miss_key[:name]%></td>
+                      <td class="miss-key-content-red"><%=miss_key[:value]%>回</td>                     
+                    <% elsif miss_key[:value] >= 5%>
+                      <td class="miss-key-content-yellow"><%=miss_key[:name]%></td>
+                      <td class="miss-key-content-yellow"><%=miss_key[:value]%>回</td>
+                    <% else %>
+                      <td class="miss-key-content"><%=miss_key[:name]%></td>
+                      <td class="miss-key-content"><%=miss_key[:value]%>回</td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+          <% end %>
+        <% else %>
+          プレイ記録がありません。
         <% end %>
-      <% end %>
-      <%= link_to "編集", edit_user_path, class: "edit-button"%>
+      </div>
     </div>
   </div>
-
-  <div class="links-wrapper">
-    <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "links"%>
-  </div>
+  <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "links"%>
+</div>
 </center>

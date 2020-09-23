@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
         currency: 'jpy' # 通貨の種類（日本円）
       )
       UserItem.create(item_id: params[:id],user_id: current_user.id) # 商品のid情報を「item_id」として保存する
-      redirect_to root_path
+      redirect_to items_path
     else
       #カードを持っていなければカード登録画面へ
       redirect_to new_card_path

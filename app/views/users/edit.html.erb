@@ -1,16 +1,15 @@
 <center>
-  <div class="heading">
-    <h1 class="title"><%="プロフィール編集"%></h1>
-  </div>
-
-  <div class="profile-wrapper">
-    <%= form_with model: @user,url: user_path,method: "patch", local: true do |f| %>
-      <div class="profile-image">
-        <p class="profile-text">ユーザーアイコン</p>
+<div class="mypage-wrap">
+  <h1 class="mypage-title">プロフィール編集</h1>
+  <%= form_with model: @user,class: "form-wrap", url: user_path,method: "patch", local: true do |f| %>
+    <div class="edit-forms">
+      <div class="left-forms">
         <%if @image_name%>
-          <%=image_tag "chara/#{@image_name}.png", class: "item-image"%>
+        <div id="test">
+          <%=image_tag "chara/#{@image_name}.png", class: "edit-item-image"%>
+        </div>
         <% else %>
-          <div class="item-image">
+          <div class="edit-item-image">
             <a class="no-image">
               画像なし
             </a>
@@ -18,42 +17,36 @@
         <% end %>
         <%#画像プルダウンメニュー%>
         <%if current_user.user_items.length != 0%>
-          <%= f.select :active_image, @item_array, include_blank: "選択して下さい", id: "icon_menu" %>
+          <div class="pulldown-manu">
+            <%= f.select :active_image, @item_array, include_blank: "選択して下さい",class: "pulldown-manu" %>
+          </div>
         <% end %>
       </div>
-      <div>
+      <div class="right-forms">
         <div class="FormField">
           <div class="FormField__name">
-            <%= f.label :name %>
+            名前
           </div>
-          <div class="FormField__name">
-            <%= f.text_field :name, autofocus: true %>
-          </div>
+          <%= f.text_field :name, autofocus: true,class: "edit-form" %>
         </div>
         <div class="FormField">
           <div class="FormField__email">
-            <%= f.label :email %>
+            メールアドレス
           </div>
-          <div class="FormField__email">
-            <%= f.email_field :email %>
-          </div>
-          <br>
+          <%= f.email_field :email ,class: "edit-form"%>
         </div>
         <div class="FormField">
           <div class="FormField__email">
-            <%= f.label :password %>
+            パスワード
           </div>
-          <div class="FormField__email">
-            <%= f.password_field :password %>
-          </div>
-          <br>
+          <%= f.password_field :password ,class: "edit-form"%>
         </div>
-        <%= f.submit "更新する" %>
       </div>
-    <%end%>
-  </div>
-    
+    </div>
+    <%= f.submit "更新する",class: "edit-button" %>
+  <%end%>
   <div class="links-wrapper">
     <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "links"%>
   </div>
+<div>
 </center>

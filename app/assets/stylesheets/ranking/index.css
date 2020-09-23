@@ -12,7 +12,7 @@
   width: 100%;
   background-color: #897858;
   color: white;
-  font-size: 50px;
+  font-size: 25px;
   font-weight: bolder;
   text-align: center;
   text-shadow: 2px 2px 0 #715c1f; 
@@ -23,18 +23,17 @@
 .user-lineup{
   width: 100%;
   background-color: #ffffff;
-  padding: 10px 0;
   border-radius: 0 0 25px 25px;
 }
 
 
 .ranker-wrapper{
-  height: 150px;
+  height: 130px;
   width: 900px;
   background-color: white;
   padding: 10px;
   box-shadow: 0 0 0 5px #e6b422 inset,0 0 0 10px #e0ebaf inset,5px 5px 5px rgba(0,0,0,0.4);
-  margin: 20px auto;
+  margin: 10px auto;
   display: flex;
   justify-content: left;
   align-items: center;
@@ -53,8 +52,8 @@
 }
 
 .ranker-image{
-  width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
   padding: 10px;
   background: linear-gradient(white 30%,skyblue 100%);
   border: solid 5px #e0ebaf;
@@ -67,12 +66,14 @@
 
 .ranker-name-wrapper{
   height: 55%;
+  display: flex;
+  align-items: center;
 }
 
 .ranker-name{
   width: 50%;
   color: white;
-  font-size: 40px;
+  font-size: 30px;
   margin-left: 20px;
   text-shadow: 2px 2px 0 #715c1f; 
 }
@@ -89,7 +90,7 @@
 .score-column{
   color: white;
   width: 60px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   background-color: #59b9c6;
   border: solid 2px white;

@@ -8,26 +8,3 @@
 .game-frame{
   border: solid 3px black;
 }
-
-.links-wrapper{
-  width: 900px;
-  height: 100px;
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.links{
-  width: 210px;
-  height: 80px;
-  font-size: 25px;
-  line-height: 80px;
-  text-align: center;
-  color: white;
-  background-color: #513743;
-  border: solid 1px white;
-  text-decoration: none;
-  font-weight: bolder;
-  margin-bottom: 30px;
-}

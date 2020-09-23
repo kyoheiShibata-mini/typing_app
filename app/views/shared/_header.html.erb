@@ -4,7 +4,7 @@
     <%#=request.path%>
     <%#トップリンク%>
     <%if request.path == "/"%>
-      <p class="current-link">TOP</p>
+      <div class="current-link">TOP</div>
     <% else %>
       <%= link_to "TOP", root_path, class: "header-link"%>
     <% end %>
