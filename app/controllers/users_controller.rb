@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name,:email,:active_image,:password);
+    params.require(:user).permit(:name,:email,:password).merge(active_image:Item.find_by(image_name: params[:user][:active_image]).id);
   end
 
   def user_data
@@ -44,8 +44,6 @@ class UsersController < ApplicationController
     if @user.card
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"] # 環境変数を読み込む
       card = Card.find_by(user_id: @user.id)
-
-      #redirect_to new_card_path and return unless card.present?
 
       customer = Payjp::Customer.retrieve(card.customer_token) # 先程のカード情報を元に、顧客情報を取得
       @card = customer.cards.first

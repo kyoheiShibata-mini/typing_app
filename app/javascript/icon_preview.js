@@ -5,7 +5,7 @@ if (document.URL.match( /edit/ )) {
     const createImageHTML = () => {
       const image_name = document.getElementById("user_active_image").value;
       const image_path = "/assets/chara/" + image_name + ".png";
-      const preview_image = document.getElementById("test");
+      const preview_image = document.getElementById("set-image");
       preview_image.innerHTML = `<img src="${image_path}" class="edit-item-image">`;
     }
 

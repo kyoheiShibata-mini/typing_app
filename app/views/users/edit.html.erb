@@ -4,17 +4,17 @@
   <%= form_with model: @user,class: "form-wrap", url: user_path,method: "patch", local: true do |f| %>
     <div class="edit-forms">
       <div class="left-forms">
-        <%if @image_name%>
-        <div id="test">
-          <%=image_tag "chara/#{@image_name}.png", class: "edit-item-image"%>
+        <div id="set-image">
+          <%if @image_name%>
+            <%=image_tag "chara/#{@image_name}.png", class: "edit-item-image"%>
+          <% else %>
+            <div class="edit-item-image">
+              <a class="no-image">
+                画像なし
+              </a>
+            </div>
+          <% end %>
         </div>
-        <% else %>
-          <div class="edit-item-image">
-            <a class="no-image">
-              画像なし
-            </a>
-          </div>
-        <% end %>
         <%#画像プルダウンメニュー%>
         <%if current_user.user_items.length != 0%>
           <div class="pulldown-manu">
