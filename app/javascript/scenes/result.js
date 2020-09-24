@@ -68,7 +68,7 @@ export function result(){
       
       var titleButton = Button({
         fontFamily: 'HiraMinPro-W6',
-        x: this.gridX.center(-4),
+        x: this.gridX.center(),
         y: this.gridY.span(12),
         width: 150,         // 横サイズ
         height: 100,        // 縦サイズ
@@ -84,7 +84,7 @@ export function result(){
 
       var playButton = Button({
         fontFamily: 'HiraMinPro-W6',
-        x: this.gridX.center(4),
+        x: this.gridX.center(-3),
         y: this.gridY.span(12),
         width: 150,         // 横サイズ
         height: 100,        // 縦サイズ
@@ -98,21 +98,29 @@ export function result(){
                             // 他にも指定できる…？
       }).addChildTo(this);
       
-      var shareButton = Button({
-        fontFamily: 'HiraMinPro-W6',
-        x: this.gridX.center(0),
-        y: this.gridY.span(12),
-        width: 150,         // 横サイズ
-        height: 100,        // 縦サイズ
-        text: "twitter",     // 表示文字
-        fontSize: 32,       // 文字サイズ
-        fontColor: 'white', // 文字色
-        cornerRadius: 10,   // 角丸み
-        fill: 'blue',    // ボタン色
-        stroke: 'darkblue',     // 枠色
-        strokeWidth: 5,     // 枠太さ
-                            // 他にも指定できる…？
-      }).addChildTo(this);
+      var twitter = Sprite('twitter').addChildTo(this);
+      twitter.x = this.gridX.center(3);
+      twitter.y = this.gridY.span(12);
+      twitter.scaleX = 0.2;
+      twitter.scaleY = 0.2;
+      twitter.setInteractive(true);
+      
+
+      // var shareButton = Button({
+      //   fontFamily: 'HiraMinPro-W6',
+      //   x: this.gridX.center(0),
+      //   y: this.gridY.span(12),
+      //   width: 150,         // 横サイズ
+      //   height: 100,        // 縦サイズ
+      //   text: "twitter",     // 表示文字
+      //   fontSize: 32,       // 文字サイズ
+      //   fontColor: 'white', // 文字色
+      //   cornerRadius: 10,   // 角丸み
+      //   fill: 'blue',    // ボタン色
+      //   stroke: 'darkblue',     // 枠色
+      //   strokeWidth: 5,     // 枠太さ
+      //                       // 他にも指定できる…？
+      // }).addChildTo(this);
 
       titleButton.onpointend = function(){
         SoundManager.stopMusic();
@@ -126,12 +134,12 @@ export function result(){
         self.app.replaceScene(Main());
       };
 
-      shareButton.onpointend = function(){
-        var text = '得点:{0},速度(タイプ数/秒):{1}\n'.format(params.score, params.speed);
+      twitter.onpointend = function(){
+        var text = '🍣たいぴんぐ天晴れなり！👘\n得点:{0}\n速度:{1}打/秒\n'.format(params.score, params.speed);
         var url = phina.social.Twitter.createURL({
           text: text,
-          hashtags: '大江戸タイピング',
-          url: 'URLが入ります\n',
+          hashtags: '大江戸タイピング\n',
+          url: 'https://ooedo-typing.herokuapp.com/\n',
         });
         window.open(url, 'share window', 'width=480, height=320');
       };
@@ -176,95 +184,7 @@ export function result(){
         stroke: 'black',
         strokeWidth: 7,
       }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center());
-      
-
-      
-      /*
-      this.fromJSON({
-        children: {
-          // スコア表示
-          scoreText: {
-            className: 'Label',
-            arguments: {
-              fontFamily: 'HiraMinPro-W6',
-              text: '{0} / {1}'.format(params.score, params.total),
-              fill: fontColor,
-              stroke: null,
-              fontSize: fontSize,
-            },
-            x: this.gridX.center(),
-            y: this.gridY.span(7),
-          },
-
-          // shareButton: {
-          //   className: 'Button',
-          //   arguments: [{
-          //     fontFamily: 'HiraMinPro-W6',
-          //     text: 'Tweet',
-          //     width: buttonSize,
-          //     height: buttonSize,
-          //     fontColor: fontColor,
-          //     fontSize: buttonSize / 4,
-          //     cornerRadius: cornerRadius,
-          //       fill: 'rgb(102,217,239)',
-          //     }],
-          //     x: this.gridX.center(-2),
-          //     y: this.gridY.span(12),
-          //   },
-
-          titleButton: {
-            className: 'Button',
-            arguments: [{
-              fontFamily: 'HiraMinPro-W6',
-              text: 'タイトル',
-              width: buttonSize,
-              height: buttonSize,
-              fontColor: fontColor,
-              fontSize: buttonSize / 4,
-              cornerRadius: cornerRadius,
-              fill: 'rgb(253,151,31)',
-            }],
-            x: this.gridX.center(-2),
-            y: this.gridY.span(12),
-
-            interactive: true,
-            // 押された時
-            onpush: function() {
-              SoundManager.stopMusic();
-              // メインシーンへ
-              this.app.replaceScene(Title());
-            }.bind(this),
-          },
-
-          playButton: {
-            className: 'Button',
-            arguments: [{
-              fontFamily: 'HiraMinPro-W6',
-              text: '再挑戦',
-              width: buttonSize,
-              height: buttonSize,
-              fontColor: fontColor,
-              fontSize: buttonSize / 4,
-              cornerRadius: cornerRadius,
-              fill: 'rgb(253,151,31)',
-            }],
-            x: this.gridX.center(2),
-            y: this.gridY.span(12),
-
-            interactive: true,
-            // 押された時
-            onpush: function() {
-              SoundManager.stopMusic();
-              // メインシーンへ
-              this.app.replaceScene(Main());
-            }.bind(this),
-          }
-        } 
-      });
-        */   
-      
     },
-    
     onenter: function() {
       SoundManager.playMusic("result_bgm");
     },

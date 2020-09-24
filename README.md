@@ -63,7 +63,7 @@ https://ooedo-typing.herokuapp.com/
 ・制限時間をタイトルで３種から選択
 ・単語登録機能
 ・ノーミスコンボ機能
-・
+・複数のローマ字入力対応
 
 ### テーブル設計
 ![typing_db](https://user-images.githubusercontent.com/47973856/94110060-f64f1880-fe7c-11ea-850f-e68d1e82bcf6.jpg)

@@ -37,6 +37,8 @@ var ASSETS = {
   image: {
     'logo': '../../assets/ooedo_logo.png',
 
+    'twitter': '../../assets/twitter.png',
+
     'main_bg': '../../assets/main_bg.jpeg',
     'boss_bg': '../../assets/boss_bg1.jpg',
     'title_bg': '../../assets/title_bg.jpg',
