@@ -1,6 +1,6 @@
 ## アプリケーション名
 大江戸タイピング
-https://user-images.githubusercontent.com/47973856/94108909-18e03200-fe7b-11ea-83d7-3df7639807a2.png
+![ooedo_logo](https://user-images.githubusercontent.com/47973856/94108909-18e03200-fe7b-11ea-83d7-3df7639807a2.png)
 ## アプリケーション概要
 楽しみながらタイピングの上達ができるタイピングゲームアプリです。
 タイプミスしたキーを確認することができるため、自分の弱点を把握し上達しやすくなっています。
@@ -66,7 +66,7 @@ https://ooedo-typing.herokuapp.com/
 ・
 
 ### テーブル設計
-https://user-images.githubusercontent.com/47973856/94110060-f64f1880-fe7c-11ea-850f-e68d1e82bcf6.jpg
+![typing_db](https://user-images.githubusercontent.com/47973856/94110060-f64f1880-fe7c-11ea-850f-e68d1e82bcf6.jpg)
 ## users テーブル
 
 | Column     | Type       | Options     |
