@@ -17,6 +17,7 @@ export function finish(){
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
+
       this.backgroundColor = 'rgba(128, 128, 128,0.5)';
       var fontColor = 'rgb(255, 255, 255)';
       this.counter = 3;

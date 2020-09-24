@@ -15,7 +15,7 @@ class CardsController < ApplicationController
     )
     if card.valid?
       card.save
-      redirect_to root_path
+      redirect_to items_path
     else
       redirect_to "new" # カード登録画面
     end

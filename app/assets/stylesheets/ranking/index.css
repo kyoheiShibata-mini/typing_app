@@ -4,12 +4,17 @@
   flex-direction: column;
   align-items: center;
   margin:10px auto;
-  border: solid 4px #897858;
   border-radius: 30px;
 }
 
-.ranking-title{
+.ranking-title-wrap{
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ranking-title{
+  width: 33%;
   background-color: #897858;
   color: white;
   font-size: 25px;
@@ -18,12 +23,32 @@
   text-shadow: 2px 2px 0 #715c1f; 
   padding: 10px 0;
   border-radius: 25px 25px 0 0;
+  text-decoration: none;
 }
+
+.ranking-title-active{
+  width: 33.5%;
+  background-color: white;
+  color: #897858;
+  font-size: 25px;
+  font-weight: bolder;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 25px 25px 0 0;
+  text-decoration: none;
+  border: solid 4px #897858;
+  border-bottom: none;
+}
+
 
 .user-lineup{
   width: 100%;
+  box-sizing: border-box;
   background-color: #ffffff;
   border-radius: 0 0 25px 25px;
+  border: solid 4px #897858;
+  border-top: none;
+  padding-bottom: 20px;
 }
 
 

@@ -47,7 +47,7 @@ export function main_game(){
   var miss_count = 0;
 
   //制限時間
-  var time = 60;
+  var time = 1;
   //経過時間
   var past_time = 0;
   //残り時間
@@ -57,12 +57,15 @@ export function main_game(){
     // 継承
     superClass: 'DisplayScene',
     // 初期化
-    init: function(param) {
+    init: function(jikan) {
       // 親クラス初期化
       this.superInit({
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
       });
+
+      console.log(jikan);
+      time = jikan;
 
       //描画順グループ
       this.group_bg = DisplayElement().addChildTo(this);
@@ -152,7 +155,15 @@ export function main_game(){
       this.loadKeywords();
       //カウントシーンを挿入
       start.start();
-      this.app.pushScene(Start());
+      this.app.pushScene(Start(time));
+    },
+
+    // シーンに復帰した時
+    onresume:function() {
+      this.initializeMain();
+      // キーワード作成
+      this.createKeyword();
+      this.createEnemy();
     },
 
     initializeMain: function(){
@@ -167,14 +178,6 @@ export function main_game(){
       miss_count = 0;
       CURRENT_SPRITE_ARRAY = EASY_SPRITE_ARRAY;
       CURRENT_KEYWORDS = EASY_KEYWORDS;
-    },
-
-    // シーンに復帰した時
-    onresume:function() {
-      this.initializeMain();
-      // キーワード作成
-      this.createKeyword();
-      this.createEnemy();
     },
     
     // 毎フレーム更新処理
@@ -192,8 +195,8 @@ export function main_game(){
           total_type: (total_type - miss_count),
           speed: Math.floor((total_type - miss_count)/time * 10)/10,
           miss_key_array,
+          jikan: time,
         }));
-        //this.showResult();
       };
       
       // 画面下到達チェック
@@ -209,7 +212,7 @@ export function main_game(){
         BG.y = this.gridY.center();
         BG.width = SCREEN_WIDTH;
         BG.height = SCREEN_HEIGHT;
-      }else if(KILL >= 21 && !HARD_MODE){
+      }else if(KILL >= 24 && !HARD_MODE){
         HARD_MODE = true;
         CURRENT_KEYWORDS = HARD_KEYWORDS;
         CURRENT_SPRITE_ARRAY = HARD_SPRITE_ARRAY;
@@ -254,6 +257,7 @@ export function main_game(){
           time_over = false;
           type_end = true;
           self.createKeyword();
+          self.buffer = "";
         }
       });
     },
@@ -356,21 +360,9 @@ export function main_game(){
                         self.createEnemy();
                       }).play();
     },
-    // 結果表示
-    showResult: function() {
-      SoundManager.setVolumeMusic(0.05);
-      // リザルトシーンへ
-      this.app.replaceScene(Finish({
-        score: score,
-        total_type: (total_type - miss_count),
-        speed: Math.floor((total_type - miss_count)/time * 10)/10,
-        miss_key_array,
-      }));      
-    },
     // キーワードをロード
     loadKeywords: function() {
       KEYWORDS2 = play_record_channel.keywords;
-      console.log("KEYWORD2:"+KEYWORDS2);
       KEYWORDS2.sort(function(a, b) { return a.type_text.length - b.type_text.length; });
       KEYWORDS2.forEach(element => {
         if(element.type_text.length <= 6){

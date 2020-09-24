@@ -108,7 +108,7 @@ Keyword.create!(
     {type_text: "sobakiri", display_text:"蕎麦切り"},
     {type_text: "hattyoudouhu", display_text:"八丁豆腐"},
     {type_text: "oometuke", display_text:"大目付"},
-    {type_text: "yosiwara", display_text:"yosiwara"},
+    {type_text: "yosiwara", display_text:"吉原"},
     {type_text: "umamawariyaku", display_text:"馬廻役"},
     {type_text: "soubujirei", display_text:"惣無事令"},
     {type_text: "kirisitan", display_text:"キリシタン"},

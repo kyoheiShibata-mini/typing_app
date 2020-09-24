@@ -1,6 +1,10 @@
 <div class="ranker-wrapper">
   <p class="rank"><%= "#{@results.index(result)+1}位" %></p>
-  <%=image_tag "chara/#{Item.find(result.user.active_image).image_name}.png", class: "ranker-image"%>
+  <%if result.user.active_image%>
+    <%=image_tag "chara/#{Item.find(result.user.active_image).image_name}.png", class: "ranker-image"%>
+  <% else %>
+    <div class="ranker-image"%></div>
+  <% end %>
   <div class ="ranker-info">
     <div class="ranker-name-wrapper">
       <p class="ranker-name"><%= result.user.name %></p>
