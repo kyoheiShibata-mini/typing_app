@@ -9,7 +9,7 @@ export function result(){
   var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
   var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
   var KEYWORD_SIZE = SCREEN_HEIGHT / 12;
-  var RESULT_SIZE = KEYWORD_SIZE;
+  var RESULT_SIZE = KEYWORD_SIZE *1.1;
   
   phina.define('Result', {
     // 継承
@@ -31,11 +31,21 @@ export function result(){
       miss_key_array.forEach(function(element,index){
         if(index <=5){
           miss_key_for_label += element.name + " :" + element.value + "回、";
-          if((index + 1) % 3 == 0){
+          if((index + 1) % 2 == 0){
             miss_key_for_label += "\n";
           };
         };
       });
+
+
+      var mode_str = "";
+      if (params.jikan < 90){
+        mode_str = "松";
+      }else if (params.jikan < 120){
+        mode_str = "竹";
+      }else{
+        mode_str = "梅";
+      };
 
       //サーバーにリザルトを保存
       const XHR = new XMLHttpRequest();
@@ -48,6 +58,7 @@ export function result(){
         total_type: params.total_type,
         speed: params.speed,
         miss_key_total: miss_key_total,
+        mode: mode_str,
       };
 
       params.miss_key_array.forEach(element => {
@@ -66,6 +77,57 @@ export function result(){
 
       var self = this;
       
+      var result_center = 0;
+
+      if(miss_key_total > 0){
+        result_center= -3;
+        this.miss_total_label = Label({
+          text: 'ミスが多かったキー: \n{0}'.format(miss_key_for_label),
+          fontFamily: 'HiraMinPro-W6',
+          fontSize: RESULT_SIZE *0.8, 
+          fill: 'white',
+          stroke: 'black',
+          strokeWidth: 7,
+        }).addChildTo(this).setPosition(this.gridX.center(4), this.gridY.center(-2));
+      };
+
+
+      this.mode_label = Label({
+        text: '{0} ({1}秒)'.format(mode_str,params.jikan),
+        fontFamily: 'HiraMinPro-W6',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 12,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-6));
+
+      this.score_label = Label({
+        text: '得点: {0}'.format(params.score),
+        fontFamily: 'HiraMinPro-W6',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 12,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-3.8));
+
+      this.total_type_label = Label({
+        text: 'タイプ数: {0}'.format(params.total_type),
+        fontFamily: 'HiraMinPro-W6',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 12,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-1.6));
+
+      this.speed_label = Label({
+        text: '速度: {0}'.format(params.speed),
+        fontFamily: 'HiraMinPro-W6',
+        fontSize: RESULT_SIZE, 
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 12,
+      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(0.6));
+
       var titleButton = Button({
         fontFamily: 'HiraMinPro-W6',
         x: this.gridX.center(),
@@ -76,7 +138,7 @@ export function result(){
         fontSize: 32,       // 文字サイズ
         fontColor: 'white', // 文字色
         cornerRadius: 10,   // 角丸み
-        fill: 'red',    // ボタン色
+        fill: '#ee7800',    // ボタン色
         stroke: 'darkred',     // 枠色
         strokeWidth: 5,     // 枠太さ
                             // 他にも指定できる…？
@@ -92,7 +154,7 @@ export function result(){
         fontSize: 32,       // 文字サイズ
         fontColor: 'white', // 文字色
         cornerRadius: 10,   // 角丸み
-        fill: 'red',    // ボタン色
+        fill: '#ee7800',    // ボタン色
         stroke: 'darkred',     // 枠色
         strokeWidth: 5,     // 枠太さ
                             // 他にも指定できる…？
@@ -105,33 +167,15 @@ export function result(){
       twitter.scaleY = 0.2;
       twitter.setInteractive(true);
       
-
-      // var shareButton = Button({
-      //   fontFamily: 'HiraMinPro-W6',
-      //   x: this.gridX.center(0),
-      //   y: this.gridY.span(12),
-      //   width: 150,         // 横サイズ
-      //   height: 100,        // 縦サイズ
-      //   text: "twitter",     // 表示文字
-      //   fontSize: 32,       // 文字サイズ
-      //   fontColor: 'white', // 文字色
-      //   cornerRadius: 10,   // 角丸み
-      //   fill: 'blue',    // ボタン色
-      //   stroke: 'darkblue',     // 枠色
-      //   strokeWidth: 5,     // 枠太さ
-      //                       // 他にも指定できる…？
-      // }).addChildTo(this);
-
       titleButton.onpointend = function(){
         SoundManager.stopMusic();
-        //self.exit("Title");
         self.app.replaceScene(Title());
       };
 
+
       playButton.onpointend = function(){
         SoundManager.stopMusic();
-        //self.exit("Main");
-        self.app.replaceScene(Main());
+        self.app.replaceScene(Main(params.jikan));
       };
 
       twitter.onpointend = function(){
@@ -143,47 +187,6 @@ export function result(){
         });
         window.open(url, 'share window', 'width=480, height=320');
       };
-
-      var result_center = 0;
-
-      if(miss_key_total > 0){
-        result_center= -3;
-        this.miss_total_label = Label({
-          text: 'ミスが多かったキー: \n{0}'.format(miss_key_for_label),
-          fontFamily: 'HiraMinPro-W6',
-          fontSize: RESULT_SIZE *0.8, 
-          fill: 'white',
-          stroke: 'black',
-          strokeWidth: 7,
-        }).addChildTo(this).setPosition(this.gridX.center(4), this.gridY.center(-2));
-      };
-
-      this.score_label = Label({
-        text: '得点: {0}'.format(params.score),
-        fontFamily: 'HiraMinPro-W6',
-        fontSize: RESULT_SIZE, 
-        fill: 'white',
-        stroke: 'black',
-        strokeWidth: 7,
-      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-5));
-
-      this.total_type_label = Label({
-        text: 'タイプ数: {0}'.format(params.total_type),
-        fontFamily: 'HiraMinPro-W6',
-        fontSize: RESULT_SIZE, 
-        fill: 'white',
-        stroke: 'black',
-        strokeWidth: 7,
-      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center(-2.5));
-
-      this.speed_label = Label({
-        text: '速度: {0}'.format(params.speed),
-        fontFamily: 'HiraMinPro-W6',
-        fontSize: RESULT_SIZE, 
-        fill: 'white',
-        stroke: 'black',
-        strokeWidth: 7,
-      }).addChildTo(this).setPosition(this.gridX.center(result_center), this.gridY.center());
     },
     onenter: function() {
       SoundManager.playMusic("result_bgm");

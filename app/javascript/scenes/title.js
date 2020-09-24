@@ -43,34 +43,90 @@ export function title(){
       this.fromJSON({
         children: {
 
-          subtitleText: {
-            className: 'Label',
-            arguments: {
-              fontFamily: 'HiraMinPro-W6',
-              text: '~ 火事と喧嘩は江戸の花 ~',
-              fill: 'red',
-              stroke: 'yellow',
-              strokeWidth: 5,
-              fontSize: SCREEN_HEIGHT / 12,
-            },
-            x: this.gridX.center(),
-            y: this.gridY.center(3),
-          },
+          // subtitleText: {
+          //   className: 'Label',
+          //   arguments: {
+          //     fontFamily: 'HiraMinPro-W6',
+          //     text: '~ 火事と喧嘩は江戸の花 ~',
+          //     fill: 'red',
+          //     stroke: 'yellow',
+          //     strokeWidth: 5,
+          //     fontSize: SCREEN_HEIGHT / 12,
+          //   },
+          //   x: this.gridX.center(),
+          //   y: this.gridY.center(3),
+          // },
 
           startText: {
             className: 'Label',
             arguments: {
               fontFamily: 'HiraMinPro-W6',
-              text: '開始',
+              text: '制限時間を選んでください',
               fill: 'white',
               stroke: null,
-              fontSize: SCREEN_HEIGHT / 13,
+              fontSize: SCREEN_HEIGHT / 25,
             },
             x: this.gridX.center(),
-            y: this.gridY.center(7),
+            y: this.gridY.center(5),
           },
         }
       });
+      
+      var matu_Button = Button({
+        fontFamily: 'HiraMinPro-W6',
+        x: this.gridX.center(-5),
+        y: this.gridY.center(7),
+        width: 220,         // 横サイズ
+        height: 55,        // 縦サイズ
+        text: "松 (60秒)",     // 表示文字
+        fontSize: SCREEN_HEIGHT / 20,
+        fontColor: 'white', // 文字色
+        cornerRadius: 10,   // 角丸み
+        fill: '#192f60',    // ボタン色
+        stroke: "#19448e",
+        strokeWidth: 5,     // 枠太さ
+      }).addChildTo(this);
+
+      var take_Button = Button({
+        fontFamily: 'HiraMinPro-W6',
+        x: this.gridX.center(),
+        y: this.gridY.center(7),
+        width: 220,         // 横サイズ
+        height: 55,        // 縦サイズ
+        text: "竹 (90秒)",     // 表示文字
+        fontSize: SCREEN_HEIGHT / 20,
+        fontColor: 'white', // 文字色
+        cornerRadius: 10,   // 角丸み
+        fill: '#192f60',    // ボタン色
+        stroke: "#19448e",
+        strokeWidth: 5,     // 枠太さ
+      }).addChildTo(this);
+
+      var ume_Button = Button({
+        fontFamily: 'HiraMinPro-W6',
+        x: this.gridX.center(5),
+        y: this.gridY.center(7),
+        width: 220,         // 横サイズ
+        height: 55,        // 縦サイズ
+        text: "梅 (120秒)",     // 表示文字
+        fontSize: SCREEN_HEIGHT / 20,
+        fontColor: 'white', // 文字色
+        cornerRadius: 10,   // 角丸み
+        fill: '#192f60',    // ボタン色
+        stroke: "#19448e",
+        strokeWidth: 5,     // 枠太さ
+      }).addChildTo(this);
+      
+      matu_Button.onpointend = function(){
+        self.gotoMain(60);
+      };
+      take_Button.onpointend = function(){
+        self.gotoMain(90);
+      };
+      ume_Button.onpointend = function(){
+        self.gotoMain(120);
+      };
+
       // 文字点滅
       this.startText.tweener.fadeOut(1000).fadeIn(1000).setLoop(true).play();
     },
@@ -85,10 +141,14 @@ export function title(){
     },
 
     // タッチ時
-    onpointend: function() {
+    // onpointend: function() {
+    //   SoundManager.play("start");
+    // },
+
+    gotoMain: function(jikan){
       SoundManager.play("start");
       // 次のシーンへ
-      this.app.replaceScene(Main());
+      this.app.replaceScene(Main(jikan));
     },
   });
 }

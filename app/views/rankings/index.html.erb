@@ -1,5 +1,23 @@
 <div class="ranking-wrapper">
-  <h1 class="ranking-title">長者番付</h1>
+  <div class="ranking-title-wrap">
+    <%if @mode == "松"%>
+      <%= link_to "長者番付「松」",ranking_path(mode: "松"), class:"ranking-title-active"%>
+    <% else %>
+      <%= link_to "長者番付「松」",ranking_path(mode: "松"), class:"ranking-title"%>
+    <% end %>
+
+    <%if @mode == "竹"%>
+      <%= link_to "長者番付「竹」",ranking_path(mode: "竹"), class:"ranking-title-active"%>
+    <% else %>
+      <%= link_to "長者番付「竹」",ranking_path(mode: "竹"), class:"ranking-title"%>
+    <% end %>
+
+    <%if @mode == "梅"%>
+      <%= link_to "長者番付「梅」",ranking_path(mode: "梅"), class:"ranking-title-active"%>
+    <% else %>
+      <%= link_to "長者番付「梅」",ranking_path(mode: "梅"), class:"ranking-title"%>
+    <% end %>
+  </div>
   <ul class="user-lineup">
     <%= render partial: 'result', collection: @results %>
   </ul>

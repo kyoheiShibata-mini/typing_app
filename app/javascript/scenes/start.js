@@ -12,7 +12,7 @@ export function start(){
     superClass: 'DisplayScene',
 
     // 継承
-    init: function(level) {
+    init: function(time) {
       this.superInit({
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
@@ -21,6 +21,13 @@ export function start(){
       var fontColor = 'rgb(255, 255, 255)';
       this.counter = 3;
       
+      var label1 = Label({
+        fontFamily: 'HiraMinPro-W6',
+        text:'制限時間{0}秒'.format(time),
+        fill: fontColor,
+        fontSize: SCREEN_HEIGHT / 16,
+      }).addChildTo(this).setPosition(this.gridX.center(), this.gridY.center(-3));
+
       var label2 = Label({
         fontFamily: 'HiraMinPro-W6',
         text:'クリックで開始',

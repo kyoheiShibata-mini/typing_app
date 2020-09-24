@@ -20,6 +20,6 @@ class TypingsController < ApplicationController
   private
 
   def result_params
-    params.require(:typing).permit(:score, :total_type, :speed, :miss_key_array, :miss_key_total, :a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :n, :m, :o, :p, :q, :r, :s, :t, :u, :v, :w, :x, :y, :z).merge(user: current_user)
+    params.require(:typing).permit(:score, :total_type, :speed, :miss_key_array, :miss_key_total, :mode, :a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :n, :m, :o, :p, :q, :r, :s, :t, :u, :v, :w, :x, :y, :z).merge(user: current_user)
   end
 end
