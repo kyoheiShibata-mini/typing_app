@@ -14,11 +14,9 @@
   justify-content: space-between;
 }
 
-.header-title{
-  width: 300px;
-  white-space: nowrap;
-  text-decoration: none;
-  color: white;
+.header-logo{
+  object-fit: cover;
+  height: 120%;
 }
 
 .header-manu{

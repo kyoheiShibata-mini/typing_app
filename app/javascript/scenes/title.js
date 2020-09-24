@@ -26,42 +26,35 @@ export function title(){
       //背景画像
       var bg = Sprite('title_bg').addChildTo(this);
       bg.x = this.gridX.center();
-      bg.y = this.gridY.center();
+      bg.y = this.gridY.center(-2);
       bg.width = SCREEN_WIDTH;
       bg.height = SCREEN_HEIGHT;
       
+      var logo = Sprite('logo').addChildTo(this);
+      logo.x = this.gridX.center();
+      logo.y = this.gridY.center(-2);
+      logo.width = SCREEN_WIDTH * 0.6;
+      logo.height = SCREEN_HEIGHT * 0.6;
+
       var self = this;
 
       this.backgroundColor = BG_COLOR;
 
       this.fromJSON({
         children: {
-          titleText: {
-            className: 'Label',
-            arguments: {
-              fontFamily: 'HiraMinPro-W6',
-              text: '大江戸タイピング',
-              fill: 'red',
-              stroke: 'yellow',
-              strokeWidth: 10,
-              fontSize: SCREEN_HEIGHT / 5,
-            },
-            x: this.gridX.center(),
-            y: this.gridY.center(-2),
-          },
 
           subtitleText: {
             className: 'Label',
             arguments: {
               fontFamily: 'HiraMinPro-W6',
-              text: '~ 家事と喧嘩は江戸の花 ~',
+              text: '~ 火事と喧嘩は江戸の花 ~',
               fill: 'red',
               stroke: 'yellow',
               strokeWidth: 5,
               fontSize: SCREEN_HEIGHT / 12,
             },
             x: this.gridX.center(),
-            y: this.gridY.center(1),
+            y: this.gridY.center(3),
           },
 
           startText: {
@@ -71,10 +64,10 @@ export function title(){
               text: '開始',
               fill: 'white',
               stroke: null,
-              fontSize: SCREEN_HEIGHT / 10,
+              fontSize: SCREEN_HEIGHT / 13,
             },
             x: this.gridX.center(),
-            y: this.gridY.center(6.5),
+            y: this.gridY.center(7),
           },
         }
       });

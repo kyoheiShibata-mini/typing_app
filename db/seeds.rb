@@ -101,5 +101,6 @@ Item.create!(
     {name: "郡代", price: 100, image_name: "busyou"},
     {name: "先代", price: 100, image_name: "mouri"},
     {name: "足軽", price: 100, image_name: "asigaru"},
+    {name: "公方", price: 100, image_name: "hideyosi"},
   ]
 )
