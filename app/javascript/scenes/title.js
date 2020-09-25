@@ -43,20 +43,6 @@ export function title(){
       this.fromJSON({
         children: {
 
-          // subtitleText: {
-          //   className: 'Label',
-          //   arguments: {
-          //     fontFamily: 'HiraMinPro-W6',
-          //     text: '~ 火事と喧嘩は江戸の花 ~',
-          //     fill: 'red',
-          //     stroke: 'yellow',
-          //     strokeWidth: 5,
-          //     fontSize: SCREEN_HEIGHT / 12,
-          //   },
-          //   x: this.gridX.center(),
-          //   y: this.gridY.center(3),
-          // },
-
           startText: {
             className: 'Label',
             arguments: {
@@ -118,7 +104,7 @@ export function title(){
       }).addChildTo(this);
       
       matu_Button.onpointend = function(){
-        self.gotoMain(60);
+        self.gotoMain(1);
       };
       take_Button.onpointend = function(){
         self.gotoMain(90);
@@ -139,11 +125,6 @@ export function title(){
 
       SoundManager.stop();
     },
-
-    // タッチ時
-    // onpointend: function() {
-    //   SoundManager.play("start");
-    // },
 
     gotoMain: function(jikan){
       SoundManager.play("start");

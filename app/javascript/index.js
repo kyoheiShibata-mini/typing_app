@@ -1,7 +1,9 @@
+import * as loading from "scenes/loading";
 import * as title from "scenes/title";
 import * as main_game from "scenes/main_game";
 import * as result from "scenes/result";
 import * as finish from "scenes/finish";
+
 
 import * as setting from "scenes/setting";
 import * as keywords from "scenes/keywords";
@@ -36,6 +38,7 @@ var ASSETS = {
   
   image: {
     'logo': '../../assets/ooedo_logo.png',
+    'logo_side': '../../assets/ooedo_logo_side.png',
 
     'twitter': '../../assets/twitter.png',
 
@@ -67,6 +70,8 @@ var ASSETS = {
     'benkei': '../../assets/chara/benkei.png',
     'tonosama': '../../assets/chara/tonosama.png',
 
+    'shadow': '../../assets/chara/shadow.png',
+
 
     'hit': '../../assets/effect/hit.png',
   },
@@ -91,6 +96,7 @@ var ASSETS = {
    },
 };
 
+loading.loading();
 title.title();
 main_game.main_game();
 result.result();

@@ -64,7 +64,6 @@ export function main_game(){
         height: SCREEN_HEIGHT,
       });
 
-      console.log(jikan);
       time = jikan;
 
       //描画順グループ
@@ -108,7 +107,18 @@ export function main_game(){
         stroke: 'black',
         strokeWidth: 7,
         fontSize: KEYWORD_SIZE * 2 / 3, 
-      }).addChildTo(this).setPosition(this.gridX.span(5), this.gridY.span(1));
+      }).addChildTo(this).setPosition(this.gridX.span(2), this.gridY.span(1));
+
+      var user_image = Sprite(play_record_channel.user_image).addChildTo(this.group_bg);
+      if(play_record_channel.user_image != "logo_side"){
+        user_image.scaleX = 0.17;
+        user_image.scaleY = 0.17;
+      }else{
+        user_image.scaleX = 0.6;
+        user_image.scaleY = 0.6;
+      };
+      user_image.x = this.gridX.center();
+      user_image.y = this.gridY.center(-6.9);
 
       //タイプ制限時間
       var timeLimit = 5;
@@ -146,6 +156,7 @@ export function main_game(){
       timerGauge.onresume = function(){
         timerGauge.value = 100;
       };
+
     },
 
     // シーンに入ったら
@@ -305,7 +316,8 @@ export function main_game(){
             ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * enemy_left)];
             SoundManager.play('todome');
             score += (10 * keyword.text.length) * score_rate;
-            self.score_label.text = '得点: {0}'.format(Math.floor(score));
+            score = Math.floor(score);
+            self.score_label.text = '得点: {0}'.format(score);
             score_rate = 1;
             // キーワード削除処理
             self.disable(keyword);
@@ -328,8 +340,6 @@ export function main_game(){
           }else{
             miss_key_obj.value++;
           }
-          // スペルミスの場合はマスク解除
-          //keyword.removeMask();
         }
       });
       // 一部一致文字がなければバッファクリア

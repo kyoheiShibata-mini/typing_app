@@ -19,7 +19,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    
   end
 
   def update
@@ -32,7 +31,13 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name,:email,:password).merge(active_image:Item.find_by(image_name: params[:user][:active_image]).id);
+    image_id = nil;
+
+    if params[:user][:active_image] != ""
+      image_id = Item.find_by(image_name: params[:user][:active_image]).id
+    end
+
+    params.require(:user).permit(:name,:email,:password).merge(active_image: image_id);
   end
 
   def user_data
