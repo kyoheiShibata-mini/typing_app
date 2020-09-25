@@ -6,8 +6,14 @@ class TypingsController < ApplicationController
 
   def new 
     @keywords = Keyword.all
-    logger.debug "@keywordsの中身: #{@keywords.length}"
-    ActionCable.server.broadcast "play_record_channel", keywords: @keywords
+
+    user_image = "logo_side";
+
+    if user_signed_in?
+      user_image = Item.find(User.find(current_user.id).active_image).image_name;
+    end
+    
+    ActionCable.server.broadcast "play_record_channel",keywords: @keywords, user_image: user_image
   end
   
   def create

@@ -101,7 +101,6 @@ Keyword.create!(
     {type_text: "ootorimono", display_text:"大捕物"},
     {type_text: "daimyou", display_text:"大名"},
     {type_text: "meakasi", display_text:"目明かし"},
-    {type_text: "matibugyou", display_text:"町奉行"},
     {type_text: "tootoumi", display_text:"遠江"},
     {type_text: "senryouyakusya", display_text:"千両役者"},
     {type_text: "katimetuke", display_text:"徒士目付"},

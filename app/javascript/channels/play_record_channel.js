@@ -1,6 +1,7 @@
 import consumer from "./consumer"
 
 export var keywords = {};
+export var user_image = {};
 
 consumer.subscriptions.create("PlayRecordChannel", {
   connected() {
@@ -13,5 +14,6 @@ consumer.subscriptions.create("PlayRecordChannel", {
 
   received(data) {
     keywords = data.keywords;
+    user_image = data.user_image;
   }
 });
