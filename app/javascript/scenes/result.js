@@ -82,8 +82,9 @@ export function result(){
       var result_center = 0;
 
       //ユーザーのアイコン表示
-      var user_image = Sprite(play_record_channel.user_image).addChildTo(this);
+      var user_image = null;
       if(play_record_channel.user_image != "logo_side"){
+        user_image = Sprite(play_record_channel.user_image).addChildTo(this);
         user_image.scaleX = 1;
         user_image.scaleY = 1;
       }else{

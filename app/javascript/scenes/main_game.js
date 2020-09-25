@@ -33,7 +33,9 @@ export function main_game(){
 
   //敵表示用スプライト 
   var ENEMY_SPRITE_ARRAY = [];
+  var ENEMY_SHADOW_ARRAY = [];
   var ATTACKED_ENEMY = null;
+  var ATTACKED_SHADOW = null;
   var KILL = 0;
 
   var time_over = false;
@@ -68,6 +70,7 @@ export function main_game(){
 
       //描画順グループ
       this.group_bg = DisplayElement().addChildTo(this);
+      this.group_shadow = DisplayElement().addChildTo(this);
       this.group_chara = DisplayElement().addChildTo(this);
       this.group_ef = DisplayElement().addChildTo(this);
 
@@ -251,11 +254,16 @@ export function main_game(){
 
     createEnemy: function(){
       if(KILL == 0 || KILL % 3 == 0){
+        ENEMY_SHADOW_ARRAY.push(Shadow(this.gridX.center(4.5),this.gridY.center(6.5)).addChildTo(this.group_shadow));
+        ENEMY_SHADOW_ARRAY.push(Shadow(this.gridX.center(-4.5),this.gridY.center(6.5)).addChildTo(this.group_shadow));
+        ENEMY_SHADOW_ARRAY.push(Shadow(this.gridX.center(),this.gridY.center(6.5)).addChildTo(this.group_shadow));
         ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(4.5),this.gridY.center(3)).addChildTo(this.group_chara));
         ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(-4.5),this.gridY.center(3)).addChildTo(this.group_chara));
         ENEMY_SPRITE_ARRAY.push(Character(this.getRandomEnemy(),this.gridX.center(),this.gridY.center(3)).addChildTo(this.group_chara));
 
-        ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length)];
+        var choose_num = Math.floor(Math.random() * ENEMY_SPRITE_ARRAY.length);
+        ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[choose_num];
+        ATTACKED_SHADOW = ENEMY_SHADOW_ARRAY[choose_num];
       }
     },
 
@@ -311,9 +319,14 @@ export function main_game(){
           if (self.buffer.length === str.length) {
             KILL++;
             ATTACKED_ENEMY.death();
+            ATTACKED_SHADOW.death();
             var i = ENEMY_SPRITE_ARRAY.indexOf(ATTACKED_ENEMY);
             var enemy_left = ENEMY_SPRITE_ARRAY.splice(i,1).length;
-            ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[Math.floor(Math.random() * enemy_left)];
+            ENEMY_SHADOW_ARRAY.splice(i,1);
+            var choose_num = Math.floor(Math.random() * enemy_left)
+            ATTACKED_ENEMY = ENEMY_SPRITE_ARRAY[choose_num];
+            ATTACKED_SHADOW = ENEMY_SHADOW_ARRAY[choose_num];
+
             SoundManager.play('todome');
             score += (10 * keyword.text.length) * score_rate;
             score = Math.floor(score);

@@ -9,7 +9,7 @@ class TypingsController < ApplicationController
 
     user_image = "logo_side";
 
-    if user_signed_in?
+    if user_signed_in? && current_user.active_image
       user_image = Item.find(User.find(current_user.id).active_image).image_name;
     end
     
