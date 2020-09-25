@@ -189,6 +189,7 @@ export function main_game(){
       NORMAL_MODE = false;
       HARD_MODE = false;
       ENEMY_SPRITE_ARRAY = [];
+      ENEMY_SHADOW_ARRAY = [];
       miss_count = 0;
       CURRENT_SPRITE_ARRAY = EASY_SPRITE_ARRAY;
       CURRENT_KEYWORDS = EASY_KEYWORDS;
