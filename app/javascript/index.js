@@ -3,7 +3,7 @@ import * as title from "scenes/title";
 import * as main_game from "scenes/main_game";
 import * as result from "scenes/result";
 import * as finish from "scenes/finish";
-
+import * as shadow from "scenes/shadow";
 
 import * as setting from "scenes/setting";
 import * as keywords from "scenes/keywords";
@@ -103,6 +103,7 @@ result.result();
 keywords.keywords();
 characters.characters();
 finish.finish();
+shadow.shadow();
 
 /*
  * メイン処理

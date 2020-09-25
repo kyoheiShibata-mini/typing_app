@@ -104,7 +104,7 @@ export function title(){
       }).addChildTo(this);
       
       matu_Button.onpointend = function(){
-        self.gotoMain(1);
+        self.gotoMain(60);
       };
       take_Button.onpointend = function(){
         self.gotoMain(90);
