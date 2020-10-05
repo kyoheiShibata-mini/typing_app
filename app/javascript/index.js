@@ -111,6 +111,7 @@ shadow.shadow();
 phina.main(function() {
   // アプリケーションを生成
   var app = GameApp({
+    
     // 表示先のcanvasを指定
     query: '#mycanvas',
     // 画面にフィットさせない
@@ -145,6 +146,13 @@ phina.main(function() {
       },
     ],
     startLabel: 'Title',
+  });
+
+  app.domElement.addEventListener('touchend', function dummy() {
+    var s = phina.asset.Sound();
+    s.loadFromBuffer();
+    s.play().stop();
+    app.domElement.removeEventListener('touchend', dummy);
   });
   // 実行
   app.run();

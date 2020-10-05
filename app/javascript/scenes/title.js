@@ -1,4 +1,5 @@
 import * as setting from "scenes/setting";
+
 /*
  * タイトルシーン
  */
@@ -6,11 +7,10 @@ export function title(){
   // グローバルに展開
   phina.globalize();
 
-
-    // 定数var 
-    var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
-    var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
-    var BG_COLOR = setting.BG_COLOR;
+  // 定数var 
+  var SCREEN_WIDTH = setting.SCREEN_WIDTH; 
+  var SCREEN_HEIGHT = setting.SCREEN_HEIGHT;
+  var BG_COLOR = setting.BG_COLOR;
 
 
   phina.define('Title', {
